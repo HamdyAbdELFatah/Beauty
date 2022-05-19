@@ -1,30 +1,31 @@
-package com.hamdy.pinky.presentation.theme
+package com.hamdy.pinky.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import com.hamdy.pinky.presentation.theme.Shapes
+import com.hamdy.pinky.presentation.theme.Typography
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = primary,
+    primaryVariant = primaryVariant,
+    secondary = secondary
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = primary,
+    primaryVariant = primaryVariant,
+    secondary = secondary,
+    //background = background,
+   // surface = surface,
+//    onPrimary = Color.Blue,
+//    onSecondary = Color.Black,
+//    onBackground = primary,
+//    onSurface = primary,
 
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable

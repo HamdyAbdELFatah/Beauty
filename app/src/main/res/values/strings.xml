@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Pinky</string>
+    <string name="app_name">Beauty</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="cart">Cart</string>
 </resources>

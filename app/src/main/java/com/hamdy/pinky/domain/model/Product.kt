@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.hamdy.pinky.data.remote.model.ProductColor
 
 data class Product (
+    val id: Int,
     val name: String,
     val price: String,
     @SerializedName("price_sign")
