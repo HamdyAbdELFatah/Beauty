@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hamdy.pinky.presentation.home.components.ProductItem
 
 @Composable
 fun HomeScreen(
@@ -29,8 +30,7 @@ fun HomeScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.products) { product ->
-                Log.d("TAG", "omar HomeScreen: ${product.name}")
-                Text(text = product.name)
+                ProductItem(product)
 
             }
         }

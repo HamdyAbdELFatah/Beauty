@@ -82,7 +82,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
-
+    //Navigation
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.1.0")
 
 }
