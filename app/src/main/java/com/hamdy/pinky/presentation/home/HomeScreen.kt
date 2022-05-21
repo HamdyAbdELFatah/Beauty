@@ -1,12 +1,12 @@
 package com.hamdy.pinky.presentation.home
 
 import android.util.Log
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,7 +19,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hamdy.pinky.presentation.home.components.HighRecommendedItem
 import com.hamdy.pinky.presentation.home.components.ProductItem
+import com.hamdy.pinky.presentation.home.components.ProductsList
 
 @Composable
 fun HomeScreen(
@@ -28,10 +30,16 @@ fun HomeScreen(
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.products) { product ->
-                ProductItem(product)
-
+        if (state.products.isNotEmpty()) {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 16.dp)
+            ) {
+                HighRecommendedItem({})
+                ProductsList(state.products)
+                ProductsList(state.products)
+                ProductsList(state.products)
             }
         }
         if (state.error.isNotBlank()) {

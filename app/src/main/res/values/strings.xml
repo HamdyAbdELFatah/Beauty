@@ -4,4 +4,8 @@
     <string name="favorite">Favorite</string>
     <string name="cart">Cart</string>
     <string name="product">Product</string>
+    <string name="recommended_product">Recommended Product</string>
+    <string name="shop_now">Shop Now</string>
+    <string name="high_recommended_product">Blotted Lip</string>
+    <string name="popular_now">Popular Now</string>
 </resources>
