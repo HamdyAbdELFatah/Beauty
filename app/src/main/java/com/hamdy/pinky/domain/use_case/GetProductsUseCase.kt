@@ -13,10 +13,10 @@ import javax.inject.Inject
 class GetProductsUseCase @Inject constructor(
     private val repository: MakeupRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Product>>> = flow {
+    operator fun invoke(category: String): Flow<Resource<List<Product>>> = flow {
         try {
             emit(Resource.Loading<List<Product>>())
-            val product = repository.getProducts()
+            val product = repository.getProducts(category)
             emit(Resource.Success<List<Product>>(product))
         } catch (e: HttpException) {
             emit(Resource.Error<List<Product>>(e.localizedMessage ?: "An unexpected error occured"))

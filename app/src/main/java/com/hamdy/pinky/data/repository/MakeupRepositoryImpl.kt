@@ -11,8 +11,8 @@ class MakeupRepositoryImpl @Inject constructor(
 ) : MakeupRepository {
 
 
-    override suspend fun getProducts(): List<Product> {
-        return api.getProducts()
+    override suspend fun getProducts(category: String): List<Product> {
+        return api.getProducts(category)
     }
 
 

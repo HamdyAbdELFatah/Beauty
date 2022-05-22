@@ -8,4 +8,7 @@
     <string name="shop_now">Shop Now</string>
     <string name="high_recommended_product">Blotted Lip</string>
     <string name="popular_now">Popular Now</string>
+    <string name="blush">Blush</string>
+    <string name="eyeliner">Eyeliner</string>
+    <string name="lipstick">Lipstick</string>
 </resources>
