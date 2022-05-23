@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamdy.pinky.R
@@ -19,6 +18,7 @@ import com.hamdy.pinky.presentation.ui.theme.tertiary
 
 private val productWidth = 160.dp
 private val productHeight = 200.dp
+val highRecommendedItemId= 1047
 
 
 @Composable
@@ -35,7 +35,7 @@ fun HighRecommendedItem(onClick: () -> Unit) {
         ) {
             Column(verticalArrangement = Arrangement.Center, modifier = Modifier.padding(8.dp)) {
                 PopularProduct()
-                ProductName()
+                ProductDetails()
                 ShopNowButton(onClick)
             }
         }
@@ -62,7 +62,7 @@ private fun ShopNowButton(onClick: () -> Unit) {
 }
 
 @Composable
-private fun ProductName() {
+private fun ProductDetails() {
     Text(text = stringResource(id = R.string.high_recommended_product))
 
 }

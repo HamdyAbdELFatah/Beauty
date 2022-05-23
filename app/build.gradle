@@ -84,6 +84,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
     //Navigation
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    //Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:$constraint_layout"
     //Coil
     implementation("io.coil-kt:coil-compose:2.1.0")
 

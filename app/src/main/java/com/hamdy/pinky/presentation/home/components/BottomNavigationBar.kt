@@ -16,6 +16,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hamdy.pinky.presentation.Screen
+import com.hamdy.pinky.presentation.navigation.BottomNavigationScreens
 import com.hamdy.pinky.presentation.ui.theme.*
 
 @Composable
@@ -28,7 +29,7 @@ fun BottomNavigationBar(navController: NavController) {
      ) {
         val currentDestination = navBackStackEntry?.destination
 
-        Screen.screens.forEach { screen ->
+        BottomNavigationScreens.screens.forEach { screen ->
             val isSelected = currentDestination?.hierarchy?.any {
                 it.route == screen.route
             } == true

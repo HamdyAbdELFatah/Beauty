@@ -15,11 +15,12 @@ import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.hamdy.pinky.R
+import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.common.initUntruestImageLoader
 import com.hamdy.pinky.domain.model.Product
+import com.hamdy.pinky.presentation.ui.theme.primary
 import com.hamdy.pinky.presentation.ui.theme.productBackground
 
-typealias ResString = R.string
 
 private val productWidth = 140.dp
 private val productHeight = 140.dp
@@ -37,7 +38,8 @@ fun ProductItem(product: Product) {
                 ProductImage(product.imageLink)
             }
             Spacer(modifier = Modifier.height(8.dp))
-            ProductName(product.name)
+            ProductDetails("$${product.price}")
+            ProductDetails(product.name)
         }
 
     }
@@ -60,8 +62,14 @@ private fun ProductImage(url: String) {
 }
 
 @Composable
-private fun ProductName(name: String) {
-    Text(text = name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+private fun ProductDetails(name: String) {
+    Text(
+        text = name,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        color = primary
+    )
 
 }
+
 

@@ -10,14 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.hamdy.pinky.R
+import com.hamdy.pinky.common.ResString
+import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.home.components.*
 
-typealias ResString = R.string
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val lipStickState = viewModel.lipStickState.value
     val eyelinerState = viewModel.eyelinerState.value
@@ -30,7 +33,10 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 64.dp)
         ) {
-            HighRecommendedItem {}
+            HighRecommendedItem(onClick =  {
+                navController.navigate(Screen.ProductDetails.route + "/${highRecommendedItemId}")
+
+            })
             CategoryName(ResString.lipstick)
             if (lipStickState.error.isNotBlank()) {
                 ErrorMessage(lipStickState.error)
@@ -67,4 +73,5 @@ fun HomeScreen(
 
     }
 }
+
 

@@ -2,6 +2,7 @@ buildscript {
     ext {
         // sorted A-Z
         compose_version = '1.1.0-beta03'
+        constraint_layout = '1.0.1'
         coroutines = '1.6.1'
         coroutine_lifecycle = '2.4.1'
         nav_version = "2.4.2"
