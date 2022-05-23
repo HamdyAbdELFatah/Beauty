@@ -1,6 +1,5 @@
 # Beauty
-**Beauty is a E-Commerce app for Mekupe**
-
+**Beauty is online platform to sell Makeup.It showcase Makeup in different category like Lipstick, Eyeliner, Blush etc**
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
