@@ -1,6 +1,7 @@
 # Beauty
 **Beauty is online platform to sell Makeup.It showcase Makeup in different category like Lipstick, Eyeliner, Blush etc**
 
+
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - is Android’s modern toolkit for building native UI. It simplifies and accelerates UI development on Android.
