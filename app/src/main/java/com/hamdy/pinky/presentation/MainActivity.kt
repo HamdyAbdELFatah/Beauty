@@ -3,18 +3,16 @@ package com.hamdy.pinky.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hamdy.pinky.presentation.home.components.BottomNavigationBar
+import com.hamdy.pinky.presentation.navigation.NavigationGraph
 import com.hamdy.pinky.presentation.ui.theme.PinkyTheme
 import com.hamdy.pinky.presentation.ui.theme.background
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,18 +32,24 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppScaffold(navController: NavHostController) {
+    val bottomBarVisibility = rememberSaveable { (mutableStateOf(true)) }
+
     Scaffold(
         backgroundColor = background,
-        topBar = {
-
-        }, bottomBar = {
-            BottomNavigationBar(navController = navController)
+        bottomBar = {
+            AnimatedVisibility(visible = bottomBarVisibility.value,
+                content = {
+                    BottomNavigationBar(
+                        navController = navController
+                    )
+                }
+            )
         }
 
     ) {
-
-        NavigationGraph(navController = navController)
-
+        NavigationGraph(navController = navController, changeVisibility = { isVisible ->
+            bottomBarVisibility.value = isVisible
+        })
     }
 }
 

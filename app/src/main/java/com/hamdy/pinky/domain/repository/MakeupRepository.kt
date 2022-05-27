@@ -4,4 +4,6 @@ import com.hamdy.pinky.domain.model.Product
 
 interface MakeupRepository {
     suspend fun getProducts(category: String): List<Product>
+
+    suspend fun getProduct(productId: Int): Product
 }

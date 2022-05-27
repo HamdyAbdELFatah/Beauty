@@ -15,5 +15,9 @@ class MakeupRepositoryImpl @Inject constructor(
         return api.getProducts(category)
     }
 
+    override suspend fun getProduct(productId: Int): Product {
+        return api.getProduct(productId)
+    }
+
 
 }

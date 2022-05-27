@@ -28,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCoinRepository(api: MakeupApi): MakeupRepository {
+    fun provideProductRepository(api: MakeupApi): MakeupRepository {
         return MakeupRepositoryImpl(api)
     }
 }

@@ -8,16 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.hamdy.pinky.presentation.Screen
-import com.hamdy.pinky.presentation.navigation.BottomNavigationScreens
-import com.hamdy.pinky.presentation.ui.theme.*
+import com.hamdy.pinky.presentation.ui.theme.background
+import com.hamdy.pinky.presentation.ui.theme.selected
+import com.hamdy.pinky.presentation.ui.theme.unSelected
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -26,10 +24,10 @@ fun BottomNavigationBar(navController: NavController) {
 
     BottomNavigation(
         backgroundColor = background,
-     ) {
+    ) {
         val currentDestination = navBackStackEntry?.destination
 
-        BottomNavigationScreens.screens.forEach { screen ->
+        Screen.screens.forEach { screen ->
             val isSelected = currentDestination?.hierarchy?.any {
                 it.route == screen.route
             } == true
@@ -65,8 +63,3 @@ fun BottomNavigationBar(navController: NavController) {
     }
 }
 
-@Preview
-@Composable
-fun PreviewBottomNavigationBar() {
-    BottomNavigationBar(rememberNavController())
-}

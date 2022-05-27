@@ -1,9 +1,8 @@
 package com.hamdy.pinky.presentation.product_details.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -15,25 +14,20 @@ import coil.compose.AsyncImage
 import com.hamdy.pinky.R
 import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.common.initUntruestImageLoader
+import com.hamdy.pinky.presentation.ui.theme.productBackground
 
 @Composable
 fun ProductDetailsImage(url: String, modifier: Modifier) {
-    Image(
-        modifier =modifier,
-        painter = painterResource(id = R.drawable.recommended_product),
-        contentDescription = stringResource(
-            id = R.string.recommended_product
+    val untruestImageLoader: ImageLoader = initUntruestImageLoader(LocalContext.current)
+    Box(modifier = modifier.background(productBackground)) {
+        AsyncImage(
+            modifier = modifier.fillMaxSize(),
+            model = url,
+            contentDescription = stringResource(id = ResString.product),
+            contentScale = ContentScale.Crop,
+            error = painterResource(R.drawable.mekaup_place_holder),
+            imageLoader = untruestImageLoader
         )
-    )
-//    val untruestImageLoader: ImageLoader = initUntruestImageLoader(LocalContext.current)
-//    AsyncImage(
-//        modifier = Modifier
-//            .fillMaxWidth(),
-//        model = url,
-//        contentDescription = stringResource(id = ResString.product),
-//        contentScale = ContentScale.Crop,
-//        error = painterResource(R.drawable.mekaup_place_holder),
-//        imageLoader = untruestImageLoader
-//    )
+    }
 }
 

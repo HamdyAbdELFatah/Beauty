@@ -18,7 +18,7 @@ import com.hamdy.pinky.presentation.ui.theme.tertiary
 
 private val productWidth = 160.dp
 private val productHeight = 200.dp
-val highRecommendedItemId= 1047
+const val highRecommendedItemId = 1047
 
 
 @Composable

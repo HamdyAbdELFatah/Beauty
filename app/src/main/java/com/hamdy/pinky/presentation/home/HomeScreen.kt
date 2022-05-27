@@ -1,5 +1,6 @@
 package com.hamdy.pinky.presentation.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.home.components.*
 
+private const val TAG = "HomeScreen"
 
 @Composable
 fun HomeScreen(
@@ -33,7 +35,7 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 64.dp)
         ) {
-            HighRecommendedItem(onClick =  {
+            HighRecommendedItem(onClick = {
                 navController.navigate(Screen.ProductDetails.route + "/${highRecommendedItemId}")
 
             })
@@ -45,7 +47,11 @@ fun HomeScreen(
                 LoadingProgress()
             }
             if (lipStickState.products.isNotEmpty()) {
-                ProductsList(lipStickState.products)
+
+                ProductsList(lipStickState.products, onClick = { productId ->
+                    navController.navigate(Screen.ProductDetails.route + "/${productId}")
+
+                })
             }
             CategoryName(ResString.eyeliner)
             if (eyelinerState.error.isNotBlank()) {
@@ -56,7 +62,10 @@ fun HomeScreen(
                 LoadingProgress()
             }
             if (eyelinerState.products.isNotEmpty()) {
-                ProductsList(eyelinerState.products)
+                ProductsList(eyelinerState.products, onClick = { productId ->
+                    navController.navigate(Screen.ProductDetails.route + "/${productId}")
+
+                })
             }
             CategoryName(ResString.blush)
             if (blushState.error.isNotBlank()) {
@@ -66,7 +75,10 @@ fun HomeScreen(
                 LoadingProgress()
             }
             if (blushState.products.isNotEmpty()) {
-                ProductsList(blushState.products)
+                ProductsList(blushState.products, onClick = { productId ->
+                    navController.navigate(Screen.ProductDetails.route + "/${productId}")
+
+                })
             }
         }
 

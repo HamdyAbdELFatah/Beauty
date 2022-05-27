@@ -1,11 +1,15 @@
 package com.hamdy.pinky.presentation.home.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,12 +30,13 @@ private val productWidth = 140.dp
 private val productHeight = 140.dp
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product,onClick: (id:Int) -> Unit) {
 
     Box(
         modifier = Modifier
             .width(productWidth)
             .padding(8.dp)
+            .noRippleClickable(onClick,product.id)
     ) {
         Column {
             Card(backgroundColor = productBackground, shape = RoundedCornerShape(8.dp)) {
@@ -44,6 +49,13 @@ fun ProductItem(product: Product) {
 
     }
 }
+inline fun Modifier.noRippleClickable(crossinline onClick: (id:Int) -> Unit,productId :Int): Modifier =
+    composed {
+        clickable(indication = null,
+            interactionSource = remember { MutableInteractionSource() }) {
+            onClick(productId)
+        }
+    }
 
 @Composable
 private fun ProductImage(url: String) {
