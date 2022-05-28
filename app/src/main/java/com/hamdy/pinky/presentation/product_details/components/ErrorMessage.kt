@@ -14,8 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ErrorMessage(message: String,modifier: Modifier) {
     Row(
-        modifier = modifier
-,
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -29,4 +28,3 @@ fun ErrorMessage(message: String,modifier: Modifier) {
         )
     }
 }
-

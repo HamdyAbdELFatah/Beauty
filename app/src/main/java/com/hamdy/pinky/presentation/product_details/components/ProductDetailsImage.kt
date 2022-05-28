@@ -19,15 +19,14 @@ import com.hamdy.pinky.presentation.ui.theme.productBackground
 @Composable
 fun ProductDetailsImage(url: String, modifier: Modifier) {
     val untruestImageLoader: ImageLoader = initUntruestImageLoader(LocalContext.current)
-    Box(modifier = modifier.background(productBackground)) {
-        AsyncImage(
-            modifier = modifier.fillMaxSize(),
-            model = url,
-            contentDescription = stringResource(id = ResString.product),
-            contentScale = ContentScale.Crop,
-            error = painterResource(R.drawable.mekaup_place_holder),
-            imageLoader = untruestImageLoader
-        )
-    }
+    AsyncImage(
+        modifier = modifier,
+        model = url,
+        contentDescription = stringResource(id = ResString.product),
+        contentScale = ContentScale.FillWidth,
+        error = painterResource(R.drawable.mekaup_place_holder),
+        imageLoader = untruestImageLoader
+    )
+
 }
 

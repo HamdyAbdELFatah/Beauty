@@ -1,6 +1,7 @@
 package com.hamdy.pinky.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import com.hamdy.pinky.presentation.product_details.ProductDetailsScreen
 
 @Composable
 fun NavigationGraph(
+    modifier: Modifier,
     navController: NavHostController,
     changeVisibility: (isVisible: Boolean) -> Unit
 ) {

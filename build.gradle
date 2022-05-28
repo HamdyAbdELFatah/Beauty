@@ -1,22 +1,23 @@
 buildscript {
     ext {
         // sorted A-Z
-        compose_version = '1.1.0-beta03'
+        compose_version = '1.2.0-beta02'
         constraint_layout = '1.0.1'
         coroutines = '1.6.1'
         coroutine_lifecycle = '2.4.1'
+        material3 = '1.0.0-alpha12'
         nav_version = "2.4.2"
         okhttp = '5.0.0-alpha.2'
         retrofit = '2.9.0'
     }
     dependencies {
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.2.0' apply false
-    id 'com.android.library' version '7.2.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.5.31' apply false
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 
 task clean(type: Delete) {
