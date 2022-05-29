@@ -1,4 +1,4 @@
-package com.hamdy.pinky.presentation.theme
+package com.hamdy.pinky.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

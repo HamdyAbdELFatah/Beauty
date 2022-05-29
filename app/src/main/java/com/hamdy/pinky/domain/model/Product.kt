@@ -7,6 +7,7 @@ data class Product (
     val id: Int,
     val name: String,
     val price: String,
+    val description: String,
     @SerializedName("price_sign")
     val priceSign: String,
     @SerializedName("image_link")

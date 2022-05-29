@@ -1,4 +1,4 @@
-package com.hamdy.pinky.presentation.theme
+package com.hamdy.pinky.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
