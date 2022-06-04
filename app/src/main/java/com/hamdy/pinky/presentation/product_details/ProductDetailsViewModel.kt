@@ -21,12 +21,26 @@ class ProductDetailsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = mutableStateOf(ProductDetailsState())
     val state: State<ProductDetailsState> = _state
+    private val _selectedColorState = mutableStateOf(-1)
+    val selectedColorState: State<Int> = _selectedColorState
+    private val _itemInCartState = mutableStateOf(0)
+    val itemInCartState: State<Int> = _itemInCartState
+
+    fun selectColor(position: Int) {
+        _selectedColorState.value = position
+    }
+
+    fun changeItemCountInCart(value: Int) {
+        if (value < 0 && _itemInCartState.value > 0 || value > 0)
+            _itemInCartState.value += value
+    }
 
     init {
-            savedStateHandle.get<String>(PARAM_PRODUCT_ID)?.let { productId ->
-                getProductDetails(productId.toInt())
-            }
+        savedStateHandle.get<String>(PARAM_PRODUCT_ID)?.let { productId ->
+            getProductDetails(productId.toInt())
+        }
     }
+
     private fun getProductDetails(id: Int) {
         getProductDetailsUseCase(id).onEach { result ->
             when (result) {

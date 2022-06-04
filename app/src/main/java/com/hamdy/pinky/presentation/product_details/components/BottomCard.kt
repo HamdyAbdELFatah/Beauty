@@ -2,13 +2,11 @@ package com.hamdy.pinky.presentation.product_details.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,10 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamdy.pinky.common.ResString
-import com.hamdy.pinky.data.remote.model.ProductColor
 import com.hamdy.pinky.domain.model.Product
 import com.hamdy.pinky.presentation.ResDrawable
-import com.hamdy.pinky.presentation.ui.theme.priceBackGround
 import com.hamdy.pinky.presentation.ui.theme.primary
 import com.hamdy.pinky.presentation.ui.theme.productBackground
 import com.hamdy.pinky.presentation.ui.theme.subTitleColor
@@ -30,7 +26,13 @@ import com.hamdy.pinky.presentation.ui.theme.subTitleColor
 @Composable
 fun BottomCard(
     product: Product,
-    modifier: Modifier
+    modifier: Modifier,
+    selectedColor: Int,
+    onColorSelected: (position: Int) -> Unit,
+    onAddToCartClick: () -> Unit,
+    onAddClick: (plusOne: Int) -> Unit,
+    onMinusClick: (minusOne: Int) -> Unit,
+    itemCountInCart: Int
 ) {
     Card(
         modifier = modifier,
@@ -42,7 +44,11 @@ fun BottomCard(
             TitleAndPrice(product)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = ResString.product_colors))
-            ListProductColors(product.productColors)
+            ListProductColors(
+                selectedColor = selectedColor,
+                productColors = product.productColors,
+                onClick = onColorSelected
+            )
             Text(text = stringResource(id = ResString.description))
             Spacer(modifier = Modifier.height(8.dp))
             ProductDescription(product.description)
@@ -53,7 +59,13 @@ fun BottomCard(
                     .background(subTitleColor)
             )
             Box(modifier = Modifier.fillMaxSize()) {
-                CartActions(modifier = Modifier.align(Alignment.BottomCenter), {}, {}, {}, 0)
+                CartActions(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    onAddToCartClick,
+                    onAddClick,
+                    onMinusClick,
+                    itemCountInCart
+                )
             }
         }
     }
@@ -63,18 +75,23 @@ fun BottomCard(
 fun CartActions(
     modifier: Modifier,
     onAddToCartClick: () -> Unit,
-    onAddClick: () -> Unit,
-    onMinusClick: () -> Unit,
+    onAddClick: (plusOne: Int) -> Unit,
+    onMinusClick: (minusOne: Int) -> Unit,
     count: Int
 
 ) {
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier, verticalAlignment = Alignment.CenterVertically,
+    ) {
         AddAndRemoveFromCart(
             onAddClick = onAddClick,
             onMinusClick = onMinusClick,
             count = count,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .wrapContentWidth()
+
         )
+        Spacer(modifier = Modifier.weight(0.25f))
         AddToCartButton(onClick = onAddToCartClick, modifier = Modifier.weight(1.5f))
 
     }
@@ -83,27 +100,30 @@ fun CartActions(
 @Composable
 fun AddAndRemoveFromCart(
     modifier: Modifier,
-    onAddClick: () -> Unit,
-    onMinusClick: () -> Unit,
+    onAddClick: (plusOne: Int) -> Unit,
+    onMinusClick: (minusOne: Int) -> Unit,
     count: Int
 ) {
     Row(
-        modifier = modifier.background(
-            color = productBackground,
-            shape = RoundedCornerShape(8.dp)
-        ),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier
+            .padding(4.dp)
+            .background(
+                color = productBackground,
+                shape = RoundedCornerShape(8.dp)
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         RoundIconButton(
             icon = painterResource(ResDrawable.ic_minus),
-            onClick = onAddClick,
+            onClick = { onMinusClick(-1) },
             backgroundColor = primary,
             modifier = Modifier
         )
-        Text(text = "$count", Modifier)
+        Text(text = "$count", Modifier, color = Color.Black)
         RoundIconButton(
             icon = painterResource(ResDrawable.ic_add),
-            onClick = onMinusClick,
+            onClick = { onAddClick(1) },
             backgroundColor = primary,
             modifier = Modifier
         )
@@ -141,25 +161,12 @@ private fun ProductDescription(description: String) {
     )
 }
 
-@Composable
-private fun ListProductColors(productColors: List<ProductColor>) {
-    LazyRow(modifier = Modifier.fillMaxWidth()) {
-        items(productColors.size) { item ->
-            ProductColor(
-                color = productColors[item].hexValue,
-                onClick = {
-
-                }
-            )
-        }
-    }
-}
 
 @Composable
 private fun ProductPrice(productPrice: String) {
     Box(
         modifier = Modifier
-            .background(color = priceBackGround, shape = RoundedCornerShape(8.dp))
+            .background(color = productBackground, shape = RoundedCornerShape(8.dp))
     ) {
         Text(
             text = "$$productPrice",
@@ -170,18 +177,5 @@ private fun ProductPrice(productPrice: String) {
     }
 }
 
-@Composable
-private fun ProductColor(color: String, onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Card(
-            shape = CircleShape,
-            modifier = Modifier.size(24.dp),
-            backgroundColor = Color.parse(color)
-        ) {
 
-        }
-    }
-}
 
-private fun Color.Companion.parse(colorString: String): Color =
-    Color(color = android.graphics.Color.parseColor(colorString))
