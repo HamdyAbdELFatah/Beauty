@@ -10,11 +10,12 @@ import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.cart.CartScreen
 import com.hamdy.pinky.presentation.favorite.FavoriteScreen
 import com.hamdy.pinky.presentation.home.HomeScreen
+import com.hamdy.pinky.presentation.login.LoginScreen
 import com.hamdy.pinky.presentation.product_details.ProductDetailsScreen
+import com.hamdy.pinky.presentation.signup.SignUpScreen
 
 @Composable
 fun NavigationGraph(
-    modifier: Modifier,
     navController: NavHostController,
     changeVisibility: (isVisible: Boolean) -> Unit
 ) {
@@ -35,7 +36,12 @@ fun NavigationGraph(
             changeVisibility(false)
             ProductDetailsScreen(navController = navController)
         }
-
+        composable(route = Screen.route_login) {
+            LoginScreen(navController = navController)
+        }
+        composable(route = Screen.route_sign_up) {
+            SignUpScreen(navController = navController)
+        }
 
     }
 }

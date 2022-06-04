@@ -2,7 +2,9 @@ package com.hamdy.pinky.di
 
 import com.hamdy.pinky.common.Constants
 import com.hamdy.pinky.data.remote.MakeupApi
+import com.hamdy.pinky.data.repository.LoginRepositoryImpl
 import com.hamdy.pinky.data.repository.MakeupRepositoryImpl
+import com.hamdy.pinky.domain.repository.LoginRepository
 import com.hamdy.pinky.domain.repository.MakeupRepository
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,10 @@ object AppModule {
     @Singleton
     fun provideProductRepository(api: MakeupApi): MakeupRepository {
         return MakeupRepositoryImpl(api)
+    }
+    @Provides
+    @Singleton
+    fun provideLoginRepository(): LoginRepository {
+        return LoginRepositoryImpl()
     }
 }

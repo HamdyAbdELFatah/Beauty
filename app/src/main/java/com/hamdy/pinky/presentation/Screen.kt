@@ -18,6 +18,8 @@ sealed class Screen(
     object Cart : BottomNavigationScreens(route_cart, ResString.cart, ResDrawable.ic_cart)
 
     object ProductDetails : Screen(route_product_details)
+    object Login : Screen(route_login)
+    object SignUp : Screen(route_sign_up)
 
     companion object {
         val screens = listOf(
@@ -29,6 +31,8 @@ sealed class Screen(
         const val route_favorite = "Favorite"
         const val route_cart = "Cart"
         const val route_product_details = "ProductDetails"
+        const val route_login = "Login"
+        const val route_sign_up = "SignUp"
     }
 
 }

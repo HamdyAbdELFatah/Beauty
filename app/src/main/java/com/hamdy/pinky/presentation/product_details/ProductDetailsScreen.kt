@@ -14,6 +14,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.hamdy.pinky.presentation.Screen
+import com.hamdy.pinky.presentation.home.components.highRecommendedItemId
 import com.hamdy.pinky.presentation.product_details.components.*
 
 @Composable
@@ -67,6 +69,7 @@ fun ProductDetailsScreen(
 
                 }, onClick = {
                     // todo add item to favorite list
+                    navController.navigate(Screen.Login.route)
                 }
             )
             BackButton(

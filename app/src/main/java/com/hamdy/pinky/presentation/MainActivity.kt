@@ -6,13 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -54,10 +51,9 @@ fun AppScaffold(navController: NavHostController) {
         }
 
     ) { padding ->
-        NavigationGraph(modifier = Modifier
-            .padding(padding), navController = navController, changeVisibility = { isVisible ->
+        NavigationGraph(navController = navController) { isVisible ->
             bottomBarVisibility.value = isVisible
-        })
+        }
     }
 }
 

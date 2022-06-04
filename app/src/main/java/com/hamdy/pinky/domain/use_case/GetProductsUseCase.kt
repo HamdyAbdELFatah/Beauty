@@ -19,7 +19,7 @@ class GetProductsUseCase @Inject constructor(
             val product = repository.getProducts(category)
             emit(Resource.Success<List<Product>>(product))
         } catch (e: HttpException) {
-            emit(Resource.Error<List<Product>>(e.localizedMessage ?: "An unexpected error occured"))
+            emit(Resource.Error<List<Product>>(e.localizedMessage ?: "An unexpected error occurred"))
         } catch (e: IOException) {
             Log.e("TAG", "invoke: $e", )
             emit(Resource.Error<List<Product>>("Couldn't reach server. Check your internet connection."))

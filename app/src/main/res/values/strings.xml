@@ -17,4 +17,6 @@
     <string name="description">Description</string>
     <string name="round_button">Round Icon Button</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="logo">Logo</string>
+    <string name="login_icon">Login Icon</string>
 </resources>
