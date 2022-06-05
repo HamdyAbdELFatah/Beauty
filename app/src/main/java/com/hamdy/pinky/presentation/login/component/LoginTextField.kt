@@ -4,6 +4,7 @@ import android.opengl.Visibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -27,10 +28,10 @@ fun LoginTextField(
     label: String,
     textValue: String,
     visibility: Boolean = true,
+    isError: Boolean,
     fieldIcon: ImageVector,
     keyboardType: KeyboardType,
-    onEmailValueChange: (value: String) -> Unit = {},
-    onPasswordValueChange: (value: String) -> Unit = {},
+    onValueChange: (value: String) -> Unit = {},
     onPasswordVisibleClicked: (visibility: Boolean) -> Unit = {}
 
 ) {
@@ -38,10 +39,7 @@ fun LoginTextField(
         modifier = modifier,
         value = textValue,
         onValueChange = {
-            if (label == SIGN_EMAIL_LABEL)
-                onEmailValueChange(it)
-            else
-                onPasswordValueChange(it)
+            onValueChange(it)
         },
         label = { Text(label) },
         visualTransformation =
@@ -49,10 +47,13 @@ fun LoginTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
 
         trailingIcon = {
-            if (label == SIGN_PASSWORD_LABEL) {
+            if (isError)
+                Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colorScheme.error)
+            else if (label == SIGN_PASSWORD_LABEL) {
                 PasswordIconVisibility(passwordVisible = visibility, onPasswordVisibleClicked)
             }
         },
+        isError = isError,
         leadingIcon = { FieldIcon(fieldIcon) },
         colors = TextFieldDefaults.textFieldColors(
             textColor = primary,
@@ -63,8 +64,7 @@ fun LoginTextField(
             focusedTrailingIconColor = primary,
             containerColor = Color.Transparent
         ),
-
-        )
+    )
 }
 
 @Composable

@@ -1,9 +1,12 @@
 package com.hamdy.pinky.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -20,12 +23,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    val state = viewModel.state.value
-    val emailTextState = viewModel.emailTextState.value
-    val passwordTextState = viewModel.passwordTextState.value
-    val passwordVisibilityState = viewModel.passwordVisibilityState.value
-    val snackBarVisibilityState = viewModel.snackBarVisibilityState.value
-
+    val state = viewModel.loginFormState
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -51,23 +49,25 @@ fun LoginScreen(
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints.atLeastWrapContent
             },
-            emailText = emailTextState,
-            passwordText = passwordTextState,
-            visibility = passwordVisibilityState,
-            onEmailValueChange = { viewModel.emailTextChange(it) },
-            onPasswordValueChange = { viewModel.passwordTextChange(it) },
+            state = state,
+            onEmailValueChange = {
+                viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+            },
+            onPasswordValueChange = {
+                viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+            },
             onPasswordVisibleClicked = {
-                viewModel.passwordVisibilityChange(it)
+                viewModel.onEvent(LoginFormEvent.PasswordVisibilityChange(it))
             },
             onLoginButtonClicked = {
-                viewModel.login(emailTextState, passwordTextState)
+                viewModel.onEvent(LoginFormEvent.Submit)
             },
             onSignClick = {
-                viewModel.snackBarVisibilityChange(true)
                 navController.popBackStack()
                 navController.navigate(Screen.route_sign_up)
             }
         )
+
         if (state.isSuccess) {
             navController.popBackStack()
         }
@@ -84,9 +84,9 @@ fun LoginScreen(
                     bottom.linkTo(parent.bottom)
                 },
                 onHideClick = {
-                    viewModel.snackBarVisibilityChange(it)
+                    viewModel.onEvent(LoginFormEvent.SnackBarVisibilityChange(it))
                 },
-                snackBarVisibleState = snackBarVisibilityState
+                snackBarVisibleState = state.snackBarIsVisible
             )
         }
     }

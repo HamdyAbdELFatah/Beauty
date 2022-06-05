@@ -11,23 +11,24 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hamdy.pinky.common.Constants.SIGN_EMAIL_LABEL
 import com.hamdy.pinky.common.Constants.SIGN_PASSWORD_LABEL
 import com.hamdy.pinky.common.ResString
+import com.hamdy.pinky.presentation.login.LoginState
 import com.hamdy.pinky.presentation.ui.theme.primary
 
 @Composable
 fun BottomCard(
     modifier: Modifier,
-    visibility: Boolean,
-    emailText: String,
-    passwordText: String,
+    state: LoginState,
     onLoginButtonClicked: () -> Unit,
     onEmailValueChange: (value: String) -> Unit,
     onPasswordValueChange: (value: String) -> Unit,
@@ -49,23 +50,31 @@ fun BottomCard(
             Column(modifier = Modifier.fillMaxWidth()) {
                 LoginTextField(
                     label = SIGN_EMAIL_LABEL,
-                    textValue = emailText,
+                    textValue = state.email,
                     fieldIcon = Icons.Filled.Email,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardType = KeyboardType.Email,
-                    onEmailValueChange = onEmailValueChange
+                    onValueChange = onEmailValueChange,
+                    isError = state.emailError != null
                 )
+                if (state.emailError != null) {
+                    TextFieldErrorMessage(state.emailError)
+                }
                 Spacer(modifier = Modifier.height(24.dp))
                 LoginTextField(
                     label = SIGN_PASSWORD_LABEL,
-                    textValue = passwordText,
+                    textValue = state.password,
                     fieldIcon = Icons.Filled.Lock,
                     modifier = Modifier.fillMaxWidth(),
-                    visibility = visibility,
+                    visibility = state.passwordIsVisible,
                     keyboardType = KeyboardType.Password,
-                    onPasswordValueChange = onPasswordValueChange,
-                    onPasswordVisibleClicked = onPasswordVisibleClicked
+                    onValueChange = onPasswordValueChange,
+                    onPasswordVisibleClicked = onPasswordVisibleClicked,
+                    isError = state.passwordError != null
                 )
+                if (state.passwordError != null) {
+                    TextFieldErrorMessage(state.passwordError)
+                }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextButton(
@@ -85,13 +94,12 @@ fun BottomCard(
                 TextHaveAccount(
                     modifier = Modifier.fillMaxWidth(),
                     haveAccountTextId = ResString.do_not_have_an_account,
-                    signTextId = ResString.sign_in,
+                    signTextId = ResString.sign_up,
                     onSignClick = onSignClick
                 )
             }
-
-
         }
     }
 }
+
 
