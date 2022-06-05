@@ -18,6 +18,32 @@ class LoginViewModel @Inject constructor(
     private val _state = mutableStateOf(LoginState())
     val state: State<LoginState> = _state
 
+    private val _emailTextState = mutableStateOf("")
+    val emailTextState: State<String> = _emailTextState
+
+    private val _passwordTextState = mutableStateOf("")
+    val passwordTextState: State<String> = _passwordTextState
+
+    private val _passwordVisibilityState = mutableStateOf(false)
+    val passwordVisibilityState: State<Boolean> = _passwordVisibilityState
+    private val _snackBarVisibilityState = mutableStateOf(false)
+    val snackBarVisibilityState: State<Boolean> = _snackBarVisibilityState
+
+    fun emailTextChange(value: String) {
+        _emailTextState.value = value
+    }
+
+    fun passwordTextChange(value: String) {
+        _passwordTextState.value = value
+    }
+
+    fun passwordVisibilityChange(value: Boolean) {
+        _passwordVisibilityState.value = value
+    }
+    fun snackBarVisibilityChange(value: Boolean) {
+        _snackBarVisibilityState.value = value
+    }
+
     fun login(email: String, password: String) {
         loginUseCase(email, password).onEach { result ->
             when (result) {

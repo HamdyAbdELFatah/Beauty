@@ -31,7 +31,7 @@ fun ProductDetailsScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        val (productImage, backButton, bottomCard, favoriteButton) = createRefs()
+        val (productImage, backButton, bottomCard, favoriteButton,progress) = createRefs()
         val centerGuideLine1 = createGuidelineFromTop(0.35f)
         val centerGuideLine2 = createGuidelineFromTop(0.37f)
         state.product?.let { product ->
@@ -83,7 +83,7 @@ fun ProductDetailsScreen(
             )
         }
         if (state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.constrainAs(bottomCard) {
+            CircularProgressIndicator(modifier = Modifier.constrainAs(progress) {
                 centerHorizontallyTo(parent)
                 centerVerticallyTo(parent)
             })

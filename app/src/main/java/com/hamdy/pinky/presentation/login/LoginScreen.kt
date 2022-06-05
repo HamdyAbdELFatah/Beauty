@@ -1,19 +1,19 @@
 package com.hamdy.pinky.presentation.login
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.login.component.BottomCard
 import com.hamdy.pinky.presentation.login.component.LogoContainer
-import com.hamdy.pinky.presentation.product_details.components.ErrorMessage
+import com.hamdy.pinky.presentation.login.component.SnackBarSignState
 
 @Composable
 fun LoginScreen(
@@ -21,20 +21,27 @@ fun LoginScreen(
     navController: NavHostController
 ) {
     val state = viewModel.state.value
+    val emailTextState = viewModel.emailTextState.value
+    val passwordTextState = viewModel.passwordTextState.value
+    val passwordVisibilityState = viewModel.passwordVisibilityState.value
+    val snackBarVisibilityState = viewModel.snackBarVisibilityState.value
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val (logoImage, bottomCard) = createRefs()
+        val (logoImage, bottomCard, progress, snackBar) = createRefs()
         val centerGuideLine = createGuidelineFromTop(0.35f)
         LogoContainer(
             modifier = Modifier.constrainAs(logoImage) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(centerGuideLine)
+                top.linkTo(parent.top, margin = 16.dp)
+                bottom.linkTo(centerGuideLine, margin = 16.dp)
+                height = Dimension.fillToConstraints
+                width = Dimension.ratio("1:1")
             })
+
         BottomCard(
             modifier = Modifier.constrainAs(bottomCard) {
                 start.linkTo(parent.start)
@@ -44,11 +51,44 @@ fun LoginScreen(
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints.atLeastWrapContent
             },
-            onLoginButtonClicked = {},
-            onSignUpClicked = {}
+            emailText = emailTextState,
+            passwordText = passwordTextState,
+            visibility = passwordVisibilityState,
+            onEmailValueChange = { viewModel.emailTextChange(it) },
+            onPasswordValueChange = { viewModel.passwordTextChange(it) },
+            onPasswordVisibleClicked = {
+                viewModel.passwordVisibilityChange(it)
+            },
+            onLoginButtonClicked = {
+                viewModel.login(emailTextState, passwordTextState)
+            },
+            onSignClick = {
+                viewModel.snackBarVisibilityChange(true)
+                navController.popBackStack()
+                navController.navigate(Screen.route_sign_up)
+            }
         )
-
-
+        if (state.isSuccess) {
+            navController.popBackStack()
+        }
+        if (state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.constrainAs(progress) {
+                centerHorizontallyTo(parent)
+                centerVerticallyTo(parent)
+            })
+        }
+        if (state.error.isNotBlank()) {
+            SnackBarSignState(
+                message = state.error,
+                modifier = Modifier.constrainAs(snackBar) {
+                    bottom.linkTo(parent.bottom)
+                },
+                onHideClick = {
+                    viewModel.snackBarVisibilityChange(it)
+                },
+                snackBarVisibleState = snackBarVisibilityState
+            )
+        }
     }
 
 }
