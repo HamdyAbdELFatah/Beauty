@@ -26,6 +26,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="the_email_can_not_be_blank">The email can\'t be blank</string>
     <string name="that_is_not_a_valid_email">That\'s not a valid email</string>
-    <string name="password_less_than_length_error">The password needs to consist of at least 6 characters</string>
-    <string name="user_name_is_empty_error_message">The username needs to contain at least one letter and digit</string>
+    <string name="password_less_than_length_error">password needs at least 6 char</string>
+    <string name="user_name_is_empty_error_message">The username can\'t be blank</string>
 </resources>

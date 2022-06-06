@@ -5,13 +5,14 @@ buildscript {
         constraint_layout = '1.0.1'
         coroutines = '1.6.1'
         coroutine_lifecycle = '2.4.1'
+        dataStoreVersion = '1.0.0'
         material3 = '1.0.0-alpha12'
         nav_version = "2.4.2"
         okhttp = '5.0.0-alpha.2'
         retrofit = '2.9.0'
     }
     repositories {
-
+        mavenCentral()
         google()  // Google's Maven repository
 
     }
@@ -29,3 +30,4 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

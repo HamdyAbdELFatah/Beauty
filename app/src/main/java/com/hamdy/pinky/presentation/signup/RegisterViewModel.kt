@@ -1,4 +1,4 @@
-package com.hamdy.pinky.presentation.login
+package com.hamdy.pinky.presentation.signup
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.hamdy.pinky.common.Resource
 import com.hamdy.pinky.data.UserPreference
 import com.hamdy.pinky.domain.use_case.LoginUseCase
+import com.hamdy.pinky.domain.use_case.RegisterUseCase
 import com.hamdy.pinky.domain.use_case.sign_form_validation_use_case.ValidateEmail
 import com.hamdy.pinky.domain.use_case.sign_form_validation_use_case.ValidatePassword
+import com.hamdy.pinky.domain.use_case.sign_form_validation_use_case.ValidateUserName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,26 +19,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
+class RegisterViewModel @Inject constructor(
+    private val registerUseCase: RegisterUseCase,
+    private val validateUserName: ValidateUserName,
     private val validateEmail: ValidateEmail,
     private val validatePassword: ValidatePassword,
     private val userPreference: UserPreference,
 ) : ViewModel() {
 
-    var loginFormState by mutableStateOf(LoginState())
+    var registerFormState by mutableStateOf(RegisterState())
 
-    private fun login(email: String, password: String) {
-        loginUseCase(email, password).onEach { result ->
-            loginFormState = when (result) {
+    private fun register(useName: String, email: String, password: String) {
+        registerUseCase(useName,email, password).onEach { result ->
+            registerFormState = when (result) {
                 is Resource.Success -> {
                     saveUser(result.data?.uid ?: "")
-                    LoginState(
+                    RegisterState(
                         isSuccess = result.data != null,
                     )
                 }
                 is Resource.Error -> {
-                    loginFormState.copy(
+                    registerFormState.copy(
                         error = result.message ?: "An unexpected error occurred",
                         isLoading = false,
                         emailError = null,
@@ -45,7 +48,7 @@ class LoginViewModel @Inject constructor(
                     )
                 }
                 is Resource.Loading -> {
-                    loginFormState.copy(
+                    registerFormState.copy(
                         isLoading = true,
                         error = "",
                         emailError = null,
@@ -57,43 +60,49 @@ class LoginViewModel @Inject constructor(
     }
 
 
-    fun onEvent(event: LoginFormEvent) {
+    fun onEvent(event: RegisterFormEvent) {
         when (event) {
-            is LoginFormEvent.EmailChanged -> {
-                loginFormState = loginFormState.copy(email = event.email)
+            is RegisterFormEvent.UserNameChanged -> {
+                registerFormState = registerFormState.copy(userName = event.userName)
             }
-            is LoginFormEvent.PasswordChanged -> {
-                loginFormState = loginFormState.copy(password = event.password)
+            is RegisterFormEvent.EmailChanged -> {
+                registerFormState = registerFormState.copy(email = event.email)
             }
-            is LoginFormEvent.PasswordVisibilityChange -> {
-                loginFormState = loginFormState.copy(passwordIsVisible = event.value)
+            is RegisterFormEvent.PasswordChanged -> {
+                registerFormState = registerFormState.copy(password = event.password)
             }
-            is LoginFormEvent.SnackBarVisibilityChange -> {
-                loginFormState = loginFormState.copy(snackBarIsVisible = event.value)
+            is RegisterFormEvent.PasswordVisibilityChange -> {
+                registerFormState = registerFormState.copy(passwordIsVisible = event.value)
             }
-            is LoginFormEvent.Submit -> {
+            is RegisterFormEvent.SnackBarVisibilityChange -> {
+                registerFormState = registerFormState.copy(snackBarIsVisible = event.value)
+            }
+            is RegisterFormEvent.Submit -> {
                 submitData()
             }
         }
     }
 
     private fun submitData() {
-        val emailResult = validateEmail(loginFormState.email)
-        val passwordResult = validatePassword(loginFormState.password)
+        val userNameResult = validateUserName(registerFormState.userName)
+        val emailResult = validateEmail(registerFormState.email)
+        val passwordResult = validatePassword(registerFormState.password)
 
         val hasError = listOf(
+            userNameResult,
             emailResult,
             passwordResult,
         ).any { !it.successful }
 
         if (hasError) {
-            loginFormState = loginFormState.copy(
+            registerFormState = registerFormState.copy(
+                userNameError = userNameResult.errorMessage,
                 emailError = emailResult.errorMessage,
                 passwordError = passwordResult.errorMessage,
             )
             return
         }
-        login(loginFormState.email, loginFormState.password)
+        register(registerFormState.userName, registerFormState.email, registerFormState.password)
     }
 
     private fun saveUser(userId: String) {

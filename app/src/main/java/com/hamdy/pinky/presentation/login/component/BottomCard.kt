@@ -11,13 +11,11 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hamdy.pinky.common.Constants.SIGN_EMAIL_LABEL
 import com.hamdy.pinky.common.Constants.SIGN_PASSWORD_LABEL
@@ -48,7 +46,7 @@ fun BottomCard(
 
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
-                LoginTextField(
+                SignTextField(
                     label = SIGN_EMAIL_LABEL,
                     textValue = state.email,
                     fieldIcon = Icons.Filled.Email,
@@ -61,7 +59,7 @@ fun BottomCard(
                     TextFieldErrorMessage(state.emailError)
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-                LoginTextField(
+                SignTextField(
                     label = SIGN_PASSWORD_LABEL,
                     textValue = state.password,
                     fieldIcon = Icons.Filled.Lock,

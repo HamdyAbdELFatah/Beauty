@@ -23,7 +23,7 @@ import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.presentation.ui.theme.primary
 
 @Composable
-fun LoginTextField(
+fun SignTextField(
     modifier: Modifier = Modifier,
     label: String,
     textValue: String,

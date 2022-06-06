@@ -1,12 +1,9 @@
 package com.hamdy.pinky.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -63,7 +60,6 @@ fun LoginScreen(
                 viewModel.onEvent(LoginFormEvent.Submit)
             },
             onSignClick = {
-                navController.popBackStack()
                 navController.navigate(Screen.route_sign_up)
             }
         )
