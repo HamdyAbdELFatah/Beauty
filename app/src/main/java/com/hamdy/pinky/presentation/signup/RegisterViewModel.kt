@@ -34,8 +34,13 @@ class RegisterViewModel @Inject constructor(
             registerFormState = when (result) {
                 is Resource.Success -> {
                     saveUser(result.data?.uid ?: "")
-                    RegisterState(
+                    registerFormState.copy(
                         isSuccess = result.data != null,
+                        isLoading = false,
+                        emailError = null,
+                        passwordError = null,
+                        snackBarIsVisible = true,
+                        error = ""
                     )
                 }
                 is Resource.Error -> {

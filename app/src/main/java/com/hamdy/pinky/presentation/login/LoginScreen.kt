@@ -1,8 +1,10 @@
 package com.hamdy.pinky.presentation.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,6 +23,7 @@ fun LoginScreen(
     navController: NavHostController
 ) {
     val state = viewModel.loginFormState
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -60,13 +63,10 @@ fun LoginScreen(
                 viewModel.onEvent(LoginFormEvent.Submit)
             },
             onSignClick = {
+                navController.popBackStack()
                 navController.navigate(Screen.route_sign_up)
             }
         )
-
-        if (state.isSuccess) {
-            navController.popBackStack()
-        }
         if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.constrainAs(progress) {
                 centerHorizontallyTo(parent)
@@ -87,4 +87,9 @@ fun LoginScreen(
         }
     }
 
+    if (state.isSuccess) {
+        LaunchedEffect(state.isSuccess) {
+            navController.popBackStack()
+        }
+    }
 }

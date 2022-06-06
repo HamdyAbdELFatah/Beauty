@@ -1,4 +1,4 @@
-package com.hamdy.pinky.presentation.home.components
+package com.hamdy.pinky.presentation.navigation
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -48,7 +48,8 @@ fun BottomNavigationBar(navController: NavController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }, label = {
+                },
+                label = {
                     Text(
                         text = stringResource(id = screen.label),
                         color = if (isSelected) selected else unSelected

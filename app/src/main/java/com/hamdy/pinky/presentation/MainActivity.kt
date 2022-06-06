@@ -13,7 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hamdy.pinky.presentation.home.components.BottomNavigationBar
+import com.hamdy.pinky.presentation.navigation.BottomNavigationBar
 import com.hamdy.pinky.presentation.navigation.NavigationGraph
 import com.hamdy.pinky.presentation.ui.theme.PinkyTheme
 import com.hamdy.pinky.presentation.ui.theme.background

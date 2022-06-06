@@ -31,8 +31,13 @@ class LoginViewModel @Inject constructor(
             loginFormState = when (result) {
                 is Resource.Success -> {
                     saveUser(result.data?.uid ?: "")
-                    LoginState(
+                    loginFormState.copy(
                         isSuccess = result.data != null,
+                        isLoading = false,
+                        emailError = null,
+                        passwordError = null,
+                        snackBarIsVisible = true,
+                        error = ""
                     )
                 }
                 is Resource.Error -> {

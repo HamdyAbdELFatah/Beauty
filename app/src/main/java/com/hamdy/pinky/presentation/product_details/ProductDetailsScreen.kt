@@ -68,7 +68,6 @@ fun ProductDetailsScreen(
                     top.linkTo(bottomCard.top)
 
                 }, onClick = {
-                    // todo add item to favorite list
                     navController.navigate(Screen.Login.route)
                 }
             )

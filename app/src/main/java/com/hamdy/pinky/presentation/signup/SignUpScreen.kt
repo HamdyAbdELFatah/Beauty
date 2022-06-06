@@ -3,6 +3,7 @@ package com.hamdy.pinky.presentation.signup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -34,7 +35,7 @@ fun SignUpScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(bottomCard.top)
-                    bottom.linkTo(bottomCard.bottom)
+                    bottom.linkTo(bottomCard.top)
                     height = Dimension.ratio("1:1")
                     width = Dimension.percent(0.30f)
                 }
@@ -67,12 +68,15 @@ fun SignUpScreen(
                 viewModel.onEvent(RegisterFormEvent.Submit)
             },
             onSignClick = {
+                navController.popBackStack()
                 navController.navigate(Screen.route_login)
             }
         )
 
         if (state.isSuccess) {
-            navController.popBackStack()
+            LaunchedEffect(state.isSuccess) {
+                navController.popBackStack()
+            }
         }
         if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.constrainAs(progress) {
