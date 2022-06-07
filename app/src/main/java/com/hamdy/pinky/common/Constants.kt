@@ -20,6 +20,8 @@ object Constants {
         Color(color = android.graphics.Color.parseColor(colorString))
     // Firebase Constants
     const val USERS_COLLECTIONS: String = "Users"
+    const val FAVORITES_COLLECTIONS: String = "Favorites"
+    const val CART_COLLECTIONS: String = "Cart"
     const val USER_NAME_FIELD: String = "userName"
     const val USER_ID_FIELD: String = "userId"
 }

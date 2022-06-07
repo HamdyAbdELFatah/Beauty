@@ -11,7 +11,7 @@ typealias ResDrawable = R.drawable
 sealed class Screen(
     val route: String,
 ) {
-
+    object Splash : Screen(route_sign_up)
     object Home : BottomNavigationScreens(route_home, ResString.home, ResDrawable.ic_home)
     object Favorite :
         BottomNavigationScreens(route_favorite, ResString.favorite, ResDrawable.ic_favorite)
@@ -27,6 +27,7 @@ sealed class Screen(
             Favorite,
             Cart,
         )
+        const val route_splash = "Splash"
         const val route_home = "Home"
         const val route_favorite = "Favorite"
         const val route_cart = "Cart"

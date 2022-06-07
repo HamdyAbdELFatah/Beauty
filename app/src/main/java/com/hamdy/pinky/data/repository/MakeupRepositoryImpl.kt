@@ -19,5 +19,12 @@ class MakeupRepositoryImpl @Inject constructor(
         return api.getProduct(productId)
     }
 
+    override suspend fun addToFavoriteList(){
+
+    }
+
+    override suspend fun removeFromFavoriteList() {
+        TODO("Not yet implemented")
+    }
 
 }

@@ -5,8 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -14,8 +12,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.hamdy.pinky.presentation.Screen
-import com.hamdy.pinky.presentation.home.components.highRecommendedItemId
 import com.hamdy.pinky.presentation.product_details.components.*
 
 @Composable
@@ -23,15 +19,14 @@ fun ProductDetailsScreen(
     viewModel: ProductDetailsViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    val state = viewModel.state.value
-    val selectedColor = viewModel.selectedColorState.value
-    val itemInCartState = viewModel.itemInCartState.value
+    val state = viewModel.productDetailsState.value
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        val (productImage, backButton, bottomCard, favoriteButton,progress) = createRefs()
+        val (productImage, backButton, bottomCard, favoriteButton, progress) = createRefs()
         val centerGuideLine1 = createGuidelineFromTop(0.35f)
         val centerGuideLine2 = createGuidelineFromTop(0.37f)
         state.product?.let { product ->
@@ -55,11 +50,14 @@ fun ProductDetailsScreen(
                     width = Dimension.fillToConstraints
                     height = Dimension.fillToConstraints.atLeastWrapContent
                 },
-                itemCountInCart = itemInCartState,
-                selectedColor = selectedColor, onColorSelected = { viewModel.selectColor(it) },
-                onAddClick = { viewModel.changeItemCountInCart(it) },
-                onMinusClick = { viewModel.changeItemCountInCart(it) },
-                onAddToCartClick = {}
+                itemCountInCart = state.cartItemCount,
+                selectedColor = state.selectedColorPosition,
+                onColorSelected = { viewModel.onEvent(ProductDetailsEvent.ColorSelected(it)) },
+                onAddClick = { viewModel.onEvent(ProductDetailsEvent.AddItemCount) },
+                onMinusClick = { viewModel.onEvent(ProductDetailsEvent.ReduceItemCount)  },
+                onAddToCartClick = {
+                    viewModel.onEvent(ProductDetailsEvent.AddToCartClicked(navController))
+                }
             )
             FavoriteButton(
                 isSelected = false, modifier = Modifier.constrainAs(favoriteButton) {
@@ -68,7 +66,7 @@ fun ProductDetailsScreen(
                     top.linkTo(bottomCard.top)
 
                 }, onClick = {
-                    navController.navigate(Screen.Login.route)
+                    viewModel.onEvent(ProductDetailsEvent.FavoriteButtonClicked(navController))
                 }
             )
             BackButton(

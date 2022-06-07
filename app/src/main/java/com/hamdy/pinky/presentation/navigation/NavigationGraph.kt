@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.hamdy.pinky.common.Constants.PARAM_PRODUCT_ID
 import com.hamdy.pinky.presentation.Screen
+import com.hamdy.pinky.presentation.SplashScreen
 import com.hamdy.pinky.presentation.cart.CartScreen
 import com.hamdy.pinky.presentation.favorite.FavoriteScreen
 import com.hamdy.pinky.presentation.home.HomeScreen
@@ -19,7 +20,11 @@ fun NavigationGraph(
     navController: NavHostController,
     changeVisibility: (isVisible: Boolean) -> Unit
 ) {
-    NavHost(navController = navController, startDestination = Screen.route_home) {
+    NavHost(navController = navController, startDestination = Screen.route_splash) {
+        composable(route = Screen.route_splash) {
+            SplashScreen(navController = navController)
+            changeVisibility(false)
+        }
         composable(route = Screen.route_home) {
             HomeScreen(navController = navController)
             changeVisibility(true)

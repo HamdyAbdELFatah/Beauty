@@ -6,4 +6,6 @@ interface MakeupRepository {
     suspend fun getProducts(category: String): List<Product>
 
     suspend fun getProduct(productId: Int): Product
+    suspend fun addToFavoriteList()
+    suspend fun removeFromFavoriteList()
 }

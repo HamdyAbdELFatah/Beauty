@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppScaffold(navController: NavHostController) {
-    val bottomBarVisibility = rememberSaveable { (mutableStateOf(true)) }
+    val bottomBarVisibility = rememberSaveable { (mutableStateOf(false)) }
 
     Scaffold(
         backgroundColor = background,
