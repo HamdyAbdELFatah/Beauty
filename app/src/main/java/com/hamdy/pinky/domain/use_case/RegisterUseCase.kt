@@ -1,6 +1,7 @@
 package com.hamdy.pinky.domain.use_case
 
 import com.google.firebase.auth.FirebaseUser
+import com.hamdy.pinky.common.Constants.AN_UNEXPECTED_ERROR_OCCURRED
 import com.hamdy.pinky.common.Resource
 import com.hamdy.pinky.domain.repository.LoginRepository
 import com.hamdy.pinky.domain.repository.RegisterRepository
@@ -23,7 +24,7 @@ class RegisterUseCase @Inject constructor(
         } catch (e: Exception) {
             emit(
                 Resource.Error<FirebaseUser?>(
-                    e.localizedMessage ?: "An unexpected error occurred"
+                    e.localizedMessage ?: AN_UNEXPECTED_ERROR_OCCURRED
                 )
             )
         }

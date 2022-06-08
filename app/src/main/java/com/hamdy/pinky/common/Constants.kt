@@ -14,6 +14,9 @@ object Constants {
     const val SIGN_PASSWORD_LABEL: String = "Password"
     const val SIGN_USERNAME_LABEL: String = "UserName"
 
+    const val AN_UNEXPECTED_ERROR_OCCURRED: String = "anUnexpectedErrorOccurred"
+    const val NO_INTERNET_CONNECTION: String = "noInternetConnection"
+
 
 
     fun Color.Companion.parse(colorString: String): Color =
@@ -24,4 +27,6 @@ object Constants {
     const val CART_COLLECTIONS: String = "Cart"
     const val USER_NAME_FIELD: String = "userName"
     const val USER_ID_FIELD: String = "userId"
+    const val PRODUCT_ID_FIELD: String = "productId"
+    const val TIME_STAMP_FIELD: String = "timeStamp"
 }

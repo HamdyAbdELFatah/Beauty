@@ -28,4 +28,6 @@
     <string name="that_is_not_a_valid_email">That\'s not a valid email</string>
     <string name="password_less_than_length_error">password needs at least 6 char</string>
     <string name="user_name_is_empty_error_message">The username can\'t be blank</string>
+    <string name="an_unexpected_error_occurred">An unexpected error occurred</string>
+    <string name="no_internet_connection">Couldn\'t reach server. Check your internet connection.</string>
 </resources>

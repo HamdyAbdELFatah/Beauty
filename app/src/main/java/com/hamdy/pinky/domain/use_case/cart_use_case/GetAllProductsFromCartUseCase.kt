@@ -1,4 +1,4 @@
-package com.hamdy.pinky.domain.use_case.favorite_use_case
+package com.hamdy.pinky.domain.use_case.cart_use_case
 
 import com.hamdy.pinky.common.Constants
 import com.hamdy.pinky.common.Resource
@@ -9,7 +9,7 @@ import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class RemoveFromFavoriteUseCase  @Inject constructor(
+class GetAllProductsFromCartUseCase  @Inject constructor(
     private val repository: FavoriteItemsRepository
 ) {
     operator fun invoke(

@@ -1,6 +1,9 @@
 package com.hamdy.pinky.domain.use_case
 
 import android.util.Log
+import com.hamdy.pinky.common.Constants
+import com.hamdy.pinky.common.Constants.AN_UNEXPECTED_ERROR_OCCURRED
+import com.hamdy.pinky.common.Constants.NO_INTERNET_CONNECTION
 import com.hamdy.pinky.common.Resource
 import com.hamdy.pinky.domain.model.Product
 import com.hamdy.pinky.domain.repository.MakeupRepository
@@ -19,10 +22,9 @@ class GetProductDetailsUseCase @Inject constructor(
             val product = repository.getProduct(productId)
             emit(Resource.Success(product))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+            emit(Resource.Error(e.localizedMessage ?: AN_UNEXPECTED_ERROR_OCCURRED))
         } catch (e: IOException) {
-            Log.e("TAG", "invoke: $e")
-            emit(Resource.Error("Couldn't reach server. Check your internet connection."))
+            emit(Resource.Error(NO_INTERNET_CONNECTION))
         }
     }
 }

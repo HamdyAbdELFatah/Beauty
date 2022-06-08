@@ -9,7 +9,7 @@ import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class RemoveFromFavoriteUseCase  @Inject constructor(
+class GetAllFavoritesUseCase  @Inject constructor(
     private val repository: FavoriteItemsRepository
 ) {
     operator fun invoke(

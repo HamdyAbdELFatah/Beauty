@@ -60,7 +60,7 @@ fun ProductDetailsScreen(
                 }
             )
             FavoriteButton(
-                isSelected = false, modifier = Modifier.constrainAs(favoriteButton) {
+                isSelected = state.isFavorite?:false, modifier = Modifier.constrainAs(favoriteButton) {
                     end.linkTo(parent.end, margin = 24.dp)
                     bottom.linkTo(bottomCard.top)
                     top.linkTo(bottomCard.top)

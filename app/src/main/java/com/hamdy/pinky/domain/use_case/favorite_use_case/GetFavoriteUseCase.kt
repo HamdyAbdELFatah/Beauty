@@ -9,7 +9,7 @@ import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class RemoveFromFavoriteUseCase  @Inject constructor(
+class GetFavoriteUseCase  @Inject constructor(
     private val repository: FavoriteItemsRepository
 ) {
     operator fun invoke(
@@ -18,7 +18,7 @@ class RemoveFromFavoriteUseCase  @Inject constructor(
     ): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading<Boolean>())
-            val favoriteProduct = repository.removeFromFavoriteList(productId, currentUser)
+            val favoriteProduct = repository.getFavorite(productId, currentUser)
             emit(Resource.Success<Boolean>(favoriteProduct))
         } catch (e: HttpException) {
             emit(

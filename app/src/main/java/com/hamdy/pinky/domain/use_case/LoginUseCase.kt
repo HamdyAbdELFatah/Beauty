@@ -1,6 +1,7 @@
 package com.hamdy.pinky.domain.use_case
 
 import com.google.firebase.auth.FirebaseUser
+import com.hamdy.pinky.common.Constants.AN_UNEXPECTED_ERROR_OCCURRED
 import com.hamdy.pinky.common.Resource
 import com.hamdy.pinky.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,7 @@ class LoginUseCase @Inject constructor(
             val user = repository.login(email, password)
             emit(Resource.Success<FirebaseUser?>(user))
         } catch (e: Exception) {
-            emit(Resource.Error<FirebaseUser?>(e.localizedMessage ?: "An unexpected error occurred"))
+            emit(Resource.Error<FirebaseUser?>(e.localizedMessage ?: AN_UNEXPECTED_ERROR_OCCURRED))
         }
     }
 }

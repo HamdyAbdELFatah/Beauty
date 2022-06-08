@@ -9,9 +9,11 @@ import com.hamdy.pinky.common.Constants
 import com.hamdy.pinky.common.Constants.PREFERENCES_DB
 import com.hamdy.pinky.data.UserPreference
 import com.hamdy.pinky.data.remote.MakeupApi
+import com.hamdy.pinky.data.repository.FavoriteItemsRepositoryImpl
 import com.hamdy.pinky.data.repository.LoginRepositoryImpl
 import com.hamdy.pinky.data.repository.MakeupRepositoryImpl
 import com.hamdy.pinky.data.repository.RegisterRepositoryImpl
+import com.hamdy.pinky.domain.repository.FavoriteItemsRepository
 import com.hamdy.pinky.domain.repository.LoginRepository
 import com.hamdy.pinky.domain.repository.MakeupRepository
 import com.hamdy.pinky.domain.repository.RegisterRepository
@@ -42,6 +44,12 @@ object AppModule {
     @Singleton
     fun provideProductRepository(api: MakeupApi): MakeupRepository {
         return MakeupRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteItemsRepository(): FavoriteItemsRepository {
+        return FavoriteItemsRepositoryImpl()
     }
 
     @Provides

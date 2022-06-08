@@ -1,6 +1,5 @@
 package com.hamdy.pinky.data.repository
 
-import com.hamdy.pinky.common.Constants
 import com.hamdy.pinky.data.remote.MakeupApi
 import com.hamdy.pinky.domain.model.Product
 import com.hamdy.pinky.domain.repository.MakeupRepository
@@ -17,14 +16,6 @@ class MakeupRepositoryImpl @Inject constructor(
 
     override suspend fun getProduct(productId: Int): Product {
         return api.getProduct(productId)
-    }
-
-    override suspend fun addToFavoriteList(){
-
-    }
-
-    override suspend fun removeFromFavoriteList() {
-        TODO("Not yet implemented")
     }
 
 }
