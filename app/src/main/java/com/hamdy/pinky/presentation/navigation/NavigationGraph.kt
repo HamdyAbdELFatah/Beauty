@@ -3,8 +3,11 @@ package com.hamdy.pinky.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.hamdy.pinky.common.Constants.PARAM_CART_PRODUCT_ID
 import com.hamdy.pinky.common.Constants.PARAM_PRODUCT_ID
 import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.SplashScreen
@@ -37,7 +40,21 @@ fun NavigationGraph(
             changeVisibility(true)
             CartScreen()
         }
-        composable(route = Screen.route_product_details + "/{$PARAM_PRODUCT_ID}") {
+        composable(route = Screen.route_product_details +
+                "/{$PARAM_PRODUCT_ID}?$PARAM_CART_PRODUCT_ID={$PARAM_CART_PRODUCT_ID}",
+            arguments = listOf(
+                navArgument(PARAM_PRODUCT_ID) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                    nullable = false
+                },
+                navArgument(PARAM_CART_PRODUCT_ID) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) {
             changeVisibility(false)
             ProductDetailsScreen(navController = navController)
         }

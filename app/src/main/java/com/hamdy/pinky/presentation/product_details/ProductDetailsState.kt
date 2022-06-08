@@ -8,6 +8,8 @@ data class ProductDetailsState(
     val error: String = "",
     val userId: String? = "",
     val selectedColorPosition: Int = -1,
+    val selectedColorPositionError: Int? = null,
     val cartItemCount: Int = 0,
+    val cartItemCountError: Int? = null,
     val isFavorite: Boolean? = false
 )

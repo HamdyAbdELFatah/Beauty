@@ -30,4 +30,7 @@
     <string name="user_name_is_empty_error_message">The username can\'t be blank</string>
     <string name="an_unexpected_error_occurred">An unexpected error occurred</string>
     <string name="no_internet_connection">Couldn\'t reach server. Check your internet connection.</string>
+    <string name="You_should_select_color">You should select color</string>
+    <string name="count_could_not_be_zero">Count couldn\'t be zero</string>
+
 </resources>

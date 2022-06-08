@@ -51,7 +51,7 @@ fun ProductDetailsScreen(
                     height = Dimension.fillToConstraints.atLeastWrapContent
                 },
                 itemCountInCart = state.cartItemCount,
-                selectedColor = state.selectedColorPosition,
+                state = state,
                 onColorSelected = { viewModel.onEvent(ProductDetailsEvent.ColorSelected(it)) },
                 onAddClick = { viewModel.onEvent(ProductDetailsEvent.AddItemCount) },
                 onMinusClick = { viewModel.onEvent(ProductDetailsEvent.ReduceItemCount)  },

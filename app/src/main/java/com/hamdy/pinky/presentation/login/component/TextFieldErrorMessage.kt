@@ -9,11 +9,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun TextFieldErrorMessage(errorMessageId:Int) {
+fun TextFieldErrorMessage(errorMessageId:Int,textAlign:TextAlign) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(id = errorMessageId),
-        textAlign = TextAlign.End,
+        textAlign = textAlign,
         color = MaterialTheme.colorScheme.error,
         style = MaterialTheme.typography.titleSmall,
     )

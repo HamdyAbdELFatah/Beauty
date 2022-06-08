@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hamdy.pinky.common.Constants.SIGN_EMAIL_LABEL
 import com.hamdy.pinky.common.Constants.SIGN_PASSWORD_LABEL
@@ -64,7 +65,7 @@ fun BottomCard(
                     isError = state.userNameError != null
                 )
                 if (state.userNameError != null) {
-                    TextFieldErrorMessage(state.userNameError)
+                    TextFieldErrorMessage(state.userNameError, TextAlign.End)
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 SignTextField(
@@ -77,7 +78,7 @@ fun BottomCard(
                     isError = state.emailError != null
                 )
                 if (state.emailError != null) {
-                    TextFieldErrorMessage(state.emailError)
+                    TextFieldErrorMessage(state.emailError, TextAlign.End)
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 SignTextField(
@@ -92,7 +93,7 @@ fun BottomCard(
                     isError = state.passwordError != null
                 )
                 if (state.passwordError != null) {
-                    TextFieldErrorMessage(state.passwordError)
+                    TextFieldErrorMessage(state.passwordError, TextAlign.End)
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {

@@ -13,21 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.domain.model.Product
 import com.hamdy.pinky.presentation.ResDrawable
+import com.hamdy.pinky.presentation.login.component.TextFieldErrorMessage
+import com.hamdy.pinky.presentation.product_details.ProductDetailsState
 import com.hamdy.pinky.presentation.ui.theme.primary
 import com.hamdy.pinky.presentation.ui.theme.productBackground
 import com.hamdy.pinky.presentation.ui.theme.subTitleColor
 
 @Composable
 fun BottomCard(
-    product: Product,
     modifier: Modifier,
-    selectedColor: Int,
+    product: Product,
+    state: ProductDetailsState,
     onColorSelected: (position: Int) -> Unit,
     onAddToCartClick: () -> Unit,
     onAddClick: (plusOne: Int) -> Unit,
@@ -44,8 +47,11 @@ fun BottomCard(
             TitleAndPrice(product)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = ResString.product_colors))
+            if (state.selectedColorPositionError != null) {
+                TextFieldErrorMessage(state.selectedColorPositionError, TextAlign.Start)
+            }
             ListProductColors(
-                selectedColor = selectedColor,
+                selectedColor = state.selectedColorPosition,
                 productColors = product.productColors,
                 onClick = onColorSelected
             )
@@ -61,6 +67,7 @@ fun BottomCard(
             Box(modifier = Modifier.fillMaxSize()) {
                 CartActions(
                     modifier = Modifier.align(Alignment.BottomCenter),
+                    state,
                     onAddToCartClick,
                     onAddClick,
                     onMinusClick,
@@ -74,26 +81,32 @@ fun BottomCard(
 @Composable
 fun CartActions(
     modifier: Modifier,
+    state: ProductDetailsState,
     onAddToCartClick: () -> Unit,
     onAddClick: (plusOne: Int) -> Unit,
     onMinusClick: (minusOne: Int) -> Unit,
     count: Int
 
 ) {
-    Row(
-        modifier = modifier, verticalAlignment = Alignment.CenterVertically,
-    ) {
-        AddAndRemoveFromCart(
-            onAddClick = onAddClick,
-            onMinusClick = onMinusClick,
-            count = count,
-            modifier = Modifier
-                .wrapContentWidth()
+    Column(modifier = modifier) {
+        if (state.cartItemCountError != null) {
+            TextFieldErrorMessage(state.cartItemCountError, TextAlign.Start)
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AddAndRemoveFromCart(
+                onAddClick = onAddClick,
+                onMinusClick = onMinusClick,
+                count = count,
+                modifier = Modifier
+                    .wrapContentWidth()
 
-        )
-        Spacer(modifier = Modifier.weight(0.25f))
-        AddToCartButton(onClick = onAddToCartClick, modifier = Modifier.weight(1.5f))
+            )
+            Spacer(modifier = Modifier.weight(0.25f))
+            AddToCartButton(onClick = onAddToCartClick, modifier = Modifier.weight(1.5f))
 
+        }
     }
 }
 

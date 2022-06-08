@@ -1,21 +1,23 @@
 package com.hamdy.pinky.presentation.product_details
 
-import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.hamdy.pinky.common.Constants.AN_UNEXPECTED_ERROR_OCCURRED
+import com.hamdy.pinky.common.Constants.PARAM_CART_PRODUCT_ID
 import com.hamdy.pinky.common.Constants.PARAM_PRODUCT_ID
+import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.common.Resource
 import com.hamdy.pinky.data.UserPreference
-import com.hamdy.pinky.domain.model.FavoriteProduct
+import com.hamdy.pinky.domain.model.Product
 import com.hamdy.pinky.domain.use_case.GetProductDetailsUseCase
+import com.hamdy.pinky.domain.use_case.cart_use_case.AddToCartUseCase
+import com.hamdy.pinky.domain.use_case.cart_use_case.GetProductFromCartUseCase
 import com.hamdy.pinky.domain.use_case.favorite_use_case.AddToFavoriteUseCase
-import com.hamdy.pinky.domain.use_case.favorite_use_case.GetFavoriteUseCase
+import com.hamdy.pinky.domain.use_case.favorite_use_case.GetFavoriteProductUseCase
 import com.hamdy.pinky.domain.use_case.favorite_use_case.RemoveFromFavoriteUseCase
 import com.hamdy.pinky.presentation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +33,11 @@ class ProductDetailsViewModel @Inject constructor(
     private val getProductDetailsUseCase: GetProductDetailsUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val removeFromFavoriteUseCase: RemoveFromFavoriteUseCase,
-    private val getFavoriteUseCase: GetFavoriteUseCase,
+    private val getFavoriteProductUseCase: GetFavoriteProductUseCase,
+    private val addToCartUseCase: AddToCartUseCase,
+    private val getProductFromCartUseCase: GetProductFromCartUseCase,
     private val userPreference: UserPreference,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private var _productDetailsState = mutableStateOf(ProductDetailsState())
     val productDetailsState: State<ProductDetailsState> = _productDetailsState
@@ -41,9 +45,10 @@ class ProductDetailsViewModel @Inject constructor(
 
     init {
         getUser()
-        savedStateHandle.get<String>(PARAM_PRODUCT_ID)?.let { productId ->
+        savedStateHandle.get<Int>(PARAM_PRODUCT_ID)?.let { productId ->
             getProductDetails(productId.toInt())
         }
+
     }
 
     private fun getUser() {
@@ -54,7 +59,6 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     private fun getProductDetails(id: Int) {
-        val value = _productDetailsState.value
         getProductDetailsUseCase(id).onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -64,6 +68,10 @@ class ProductDetailsViewModel @Inject constructor(
                             isLoading = false,
                         )
                     getFavoriteItem()
+                    savedStateHandle.get<String>(PARAM_CART_PRODUCT_ID)?.let { productId ->
+                        getProductFromCart(_productDetailsState.value, productId)
+                    }
+
                 }
                 is Resource.Error -> {
                     _productDetailsState.value = ProductDetailsState(
@@ -95,33 +103,44 @@ class ProductDetailsViewModel @Inject constructor(
                 }
             }
             is ProductDetailsEvent.AddItemCount -> {
-                _productDetailsState.value = _productDetailsState.value.copy(
-                    cartItemCount = value.cartItemCount + 1
+                _productDetailsState.value = value.copy(
+                    cartItemCount = value.cartItemCount + 1,
+                    cartItemCountError = null
                 )
             }
             is ProductDetailsEvent.ReduceItemCount -> {
                 val count = value.cartItemCount
-                _productDetailsState.value = _productDetailsState.value.copy(
+                _productDetailsState.value = value.copy(
                     cartItemCount = if (count > 0) count - 1 else 0
                 )
             }
             is ProductDetailsEvent.AddToCartClicked -> {
-                if (value.userId != null) {
+                if (value.userId == null) {
                     event.navController.navigate(Screen.Login.route)
-                } else {
-                    addToFavoriteList(value)
-                }
+                } else if (value.selectedColorPosition < 0 || value.cartItemCount == 0) {
+                    if (value.selectedColorPosition < 0)
+                        _productDetailsState.value = value.copy(
+                            selectedColorPositionError = ResString.You_should_select_color
+                        )
+                    if (value.cartItemCount == 0)
+                        _productDetailsState.value = _productDetailsState.value.copy(
+                            cartItemCountError = ResString.count_could_not_be_zero
+                        )
+
+                } else
+                    addToCartList(value, event.navController)
             }
             is ProductDetailsEvent.ColorSelected -> {
-                _productDetailsState.value = _productDetailsState.value.copy(
-                    selectedColorPosition = event.colorPosition
+                _productDetailsState.value = value.copy(
+                    selectedColorPosition = event.colorPosition,
+                    selectedColorPositionError = null
                 )
             }
         }
     }
 
     private fun addToFavoriteList(value: ProductDetailsState) {
-        collector(
+        favoriteCollector(
             addToFavoriteUseCase(
                 product = value.product!!,
                 currentUser = value.userId!!
@@ -130,7 +149,7 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     private fun removeFavoriteList(value: ProductDetailsState) {
-        collector(
+        favoriteCollector(
             removeFromFavoriteUseCase(
                 productId = value.product?.id!!,
                 currentUser = value.userId!!
@@ -138,16 +157,61 @@ class ProductDetailsViewModel @Inject constructor(
         )
     }
 
+    private fun addToCartList(value: ProductDetailsState, navController: NavHostController) {
+        cartCollector(
+            addToCartUseCase(
+                product = value.product!!,
+                currentUser = value.userId!!,
+                productCount = value.cartItemCount,
+                selectedColorPosition = value.selectedColorPosition,
+                productColor = value.product.productColors[value.selectedColorPosition].colourName
+            ), navController
+        )
+    }
+
     private fun getFavoriteItem() {
-        collector(
-            getFavoriteUseCase(
+        favoriteCollector(
+            getFavoriteProductUseCase(
                 productId = _productDetailsState.value.product?.id!!,
                 currentUser = _productDetailsState.value.userId!!
             )
         )
     }
+    private fun getProductFromCart(value: ProductDetailsState, productId: String) {
+        getProductFromCartUseCase(
+            productId = productId,
+            currentUser = value.userId!!,
+        ).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _productDetailsState.value = _productDetailsState.value.copy(
+                        isLoading = false,
+                    )
+                    if (result.data != null) {
+                        _productDetailsState.value = _productDetailsState.value.copy(
+                            selectedColorPosition = result.data.selectedColorPosition,
+                            cartItemCount = result.data.productCount
+                        )
+                    }
+                }
+                is Resource.Error -> {
+                    _productDetailsState.value = _productDetailsState.value.copy(
+                        error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED,
+                        isLoading = false,
+                    )
+                }
+                is Resource.Loading -> {
+                    _productDetailsState.value =
+                        _productDetailsState.value.copy(
+                            isLoading = true,
+                        )
+                }
+            }
+        }.launchIn(viewModelScope)
 
-    private fun collector(receiver: Flow<Resource<Boolean>>) {
+    }
+
+    private fun favoriteCollector(receiver: Flow<Resource<Boolean>>) {
         receiver.onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -168,6 +232,34 @@ class ProductDetailsViewModel @Inject constructor(
                     _productDetailsState.value =
                         _productDetailsState.value.copy(
                             isLoading = true,
+                        )
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun cartCollector(receiver: Flow<Resource<Boolean>>, navController: NavHostController) {
+        receiver.onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _productDetailsState.value =
+                        _productDetailsState.value.copy(
+                            isLoading = false,
+                        )
+                    navController.popBackStack()
+                }
+                is Resource.Error -> {
+                    _productDetailsState.value = _productDetailsState.value.copy(
+                        error = result.message ?: AN_UNEXPECTED_ERROR_OCCURRED,
+                        isLoading = false,
+                    )
+                }
+                is Resource.Loading -> {
+                    _productDetailsState.value =
+                        _productDetailsState.value.copy(
+                            isLoading = true,
+                            selectedColorPositionError = null,
+                            cartItemCountError = null
                         )
                 }
             }
