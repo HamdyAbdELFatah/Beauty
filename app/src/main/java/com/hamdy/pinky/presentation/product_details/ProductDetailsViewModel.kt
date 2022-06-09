@@ -1,5 +1,6 @@
 package com.hamdy.pinky.presentation.product_details
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -70,6 +71,7 @@ class ProductDetailsViewModel @Inject constructor(
                     getFavoriteItem()
                     savedStateHandle.get<String>(PARAM_CART_PRODUCT_ID)?.let { productId ->
                         getProductFromCart(_productDetailsState.value, productId)
+
                     }
 
                 }
@@ -187,11 +189,13 @@ class ProductDetailsViewModel @Inject constructor(
                     _productDetailsState.value = _productDetailsState.value.copy(
                         isLoading = false,
                     )
+                    Log.d("LastMan", "getProductFromCart: $productId")
                     if (result.data != null) {
                         _productDetailsState.value = _productDetailsState.value.copy(
                             selectedColorPosition = result.data.selectedColorPosition,
                             cartItemCount = result.data.productCount
                         )
+                        Log.d("LastMan", "getProductFromCart: ${result.data.name}")
                     }
                 }
                 is Resource.Error -> {

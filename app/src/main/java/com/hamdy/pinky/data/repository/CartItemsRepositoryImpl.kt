@@ -31,7 +31,7 @@ class CartItemsRepositoryImpl @Inject constructor(
         currentUser: String
     ): CartProduct? {
         val document = collectionReference.document(currentUser)
-            .collection(FAVORITES_COLLECTIONS).document(productId).get()
+            .collection(CART_COLLECTIONS).document(productId).get()
             .await()
         return if (document.exists())
             document.toObject(CartProduct::class.java)
