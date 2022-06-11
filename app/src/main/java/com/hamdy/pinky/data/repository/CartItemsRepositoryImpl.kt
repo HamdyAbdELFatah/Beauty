@@ -1,5 +1,7 @@
 package com.hamdy.pinky.data.repository
 
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hamdy.pinky.common.Constants.CART_COLLECTIONS
 import com.hamdy.pinky.common.Constants.FAVORITES_COLLECTIONS
@@ -15,15 +17,20 @@ class CartItemsRepositoryImpl @Inject constructor(
 
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
     private val collectionReference by lazy { db.collection(USERS_COLLECTIONS) }
+    private val auth by lazy { FirebaseAuth.getInstance() }
 
 
-    override suspend fun getAllProductsFromCart(currentUser: String): List<CartProduct> {
+    override suspend fun getAllProductsFromCart(): List<CartProduct>? {
+        if (auth.currentUser == null) {
+            return null
+        }
         val arr = mutableListOf<CartProduct>()
-        val result = collectionReference.document(currentUser)
+        val result = collectionReference.document(auth.currentUser?.uid.toString())
             .collection(CART_COLLECTIONS).get().await()
         for (i in result)
             arr.add(i.toObject(CartProduct::class.java))
         return arr
+
     }
 
     override suspend fun getProductFromCart(
@@ -46,8 +53,8 @@ class CartItemsRepositoryImpl @Inject constructor(
         return true
     }
 
-    override suspend fun removeCartList(productId: Int, currentUser: String): Boolean {
-        collectionReference.document(currentUser)
+    override suspend fun removeCartList(productId: Int): Boolean {
+        collectionReference.document(auth.currentUser?.uid.toString())
             .collection(CART_COLLECTIONS).document(productId.toString()).delete().await()
         return false
     }

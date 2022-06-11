@@ -38,7 +38,7 @@ fun NavigationGraph(
         }
         composable(route = Screen.route_cart) {
             changeVisibility(true)
-            CartScreen()
+            CartScreen(navController = navController)
         }
         composable(route = Screen.route_product_details +
                 "/{$PARAM_PRODUCT_ID}?$PARAM_CART_PRODUCT_ID={$PARAM_CART_PRODUCT_ID}",

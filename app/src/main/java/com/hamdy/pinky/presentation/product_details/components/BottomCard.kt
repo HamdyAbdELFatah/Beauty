@@ -33,8 +33,8 @@ fun BottomCard(
     state: ProductDetailsState,
     onColorSelected: (position: Int) -> Unit,
     onAddToCartClick: () -> Unit,
-    onAddClick: (plusOne: Int) -> Unit,
-    onMinusClick: (minusOne: Int) -> Unit,
+    onAddClick: () -> Unit,
+    onMinusClick: () -> Unit,
     itemCountInCart: Int
 ) {
     Card(
@@ -83,8 +83,8 @@ fun CartActions(
     modifier: Modifier,
     state: ProductDetailsState,
     onAddToCartClick: () -> Unit,
-    onAddClick: (plusOne: Int) -> Unit,
-    onMinusClick: (minusOne: Int) -> Unit,
+    onAddClick: () -> Unit,
+    onMinusClick: () -> Unit,
     count: Int
 
 ) {
@@ -101,6 +101,11 @@ fun CartActions(
                 count = count,
                 modifier = Modifier
                     .wrapContentWidth()
+                    .padding(4.dp)
+                    .background(
+                        color = productBackground,
+                        shape = RoundedCornerShape(8.dp)
+                    )
 
             )
             Spacer(modifier = Modifier.weight(0.25f))
@@ -110,38 +115,6 @@ fun CartActions(
     }
 }
 
-@Composable
-fun AddAndRemoveFromCart(
-    modifier: Modifier,
-    onAddClick: (plusOne: Int) -> Unit,
-    onMinusClick: (minusOne: Int) -> Unit,
-    count: Int
-) {
-    Row(
-        modifier = modifier
-            .padding(4.dp)
-            .background(
-                color = productBackground,
-                shape = RoundedCornerShape(8.dp)
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        RoundIconButton(
-            icon = painterResource(ResDrawable.ic_minus),
-            onClick = { onMinusClick(-1) },
-            backgroundColor = primary,
-            modifier = Modifier
-        )
-        Text(text = "$count", Modifier, color = Color.Black)
-        RoundIconButton(
-            icon = painterResource(ResDrawable.ic_add),
-            onClick = { onAddClick(1) },
-            backgroundColor = primary,
-            modifier = Modifier
-        )
-    }
-}
 
 @Composable
 fun AddToCartButton(onClick: () -> Unit, modifier: Modifier) {

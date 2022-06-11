@@ -32,5 +32,9 @@
     <string name="no_internet_connection">Couldn\'t reach server. Check your internet connection.</string>
     <string name="You_should_select_color">You should select color</string>
     <string name="count_could_not_be_zero">Count couldn\'t be zero</string>
+    <string name="sub_total">Sub Total</string>
+    <string name="shipping">Shipping</string>
+    <string name="total">Total</string>
+    <string name="checkout">Checkout</string>
 
 </resources>
