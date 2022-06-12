@@ -6,6 +6,7 @@
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - is Android’s modern toolkit for building native UI. It simplifies and accelerates UI development on Android.
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - is a dependency injection library for Android that reduces the boilerplate of doing manual dependency injection in your project.
+- [MVI](https://www.raywenderlich.com/817602-mvi-architecture-for-android-tutorial-getting-started) - stands for Model-View-Intent. MVI is one of the newest architecture patterns for Android, inspired by the unidirectional and cyclical nature of the Cycle.js framework.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more..
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes.
