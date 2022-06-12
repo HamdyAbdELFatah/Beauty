@@ -13,7 +13,7 @@ class RemoveFromCartUseCase  @Inject constructor(
     private val repository: CartItemsRepository
 ) {
     operator fun invoke(
-        productId: Int
+        productId: String
     ): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading<Boolean>())

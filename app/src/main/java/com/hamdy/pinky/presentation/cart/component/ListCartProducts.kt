@@ -72,7 +72,7 @@ fun ListCartProducts(
                 dismissContent = {
                     CartItem(
                         product = products[position],
-                        onClick = onClick,
+                        onClick = {onClick(position)},
                         onAddClick = { onAddClick(position) },
                         onMinusClick = { onMinusClick(position) }
                     )

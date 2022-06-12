@@ -18,7 +18,7 @@ class GetAllFavoritesUseCase  @Inject constructor(
     ): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading<Boolean>())
-            val favoriteProduct = repository.removeFromFavoriteList(productId, currentUser)
+            val favoriteProduct = repository.getAllFavorites()
             emit(Resource.Success<Boolean>(favoriteProduct))
         } catch (e: HttpException) {
             emit(

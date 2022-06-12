@@ -53,10 +53,10 @@ class CartItemsRepositoryImpl @Inject constructor(
         return true
     }
 
-    override suspend fun removeCartList(productId: Int): Boolean {
+    override suspend fun removeCartList(productId: String): Boolean {
         collectionReference.document(auth.currentUser?.uid.toString())
-            .collection(CART_COLLECTIONS).document(productId.toString()).delete().await()
-        return false
+            .collection(CART_COLLECTIONS).document(productId).delete().await()
+        return true
     }
 
 }
