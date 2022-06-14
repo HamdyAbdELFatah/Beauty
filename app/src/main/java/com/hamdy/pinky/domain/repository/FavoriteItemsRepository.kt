@@ -7,5 +7,5 @@ interface FavoriteItemsRepository {
     suspend fun addToFavoriteList(product: FavoriteProduct, currentUser: String): Boolean
     suspend fun getFavorite(productId: Int, currentUser: String): Boolean
     suspend fun removeFromFavoriteList(productId: Int, currentUser: String): Boolean
-    suspend fun getAllFavorites(): List<FavoriteProduct>
+    suspend fun getAllFavorites(): List<FavoriteProduct>?
 }

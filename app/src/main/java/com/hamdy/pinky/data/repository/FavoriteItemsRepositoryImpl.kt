@@ -1,5 +1,6 @@
 package com.hamdy.pinky.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hamdy.pinky.common.Constants.FAVORITES_COLLECTIONS
 import com.hamdy.pinky.common.Constants.USERS_COLLECTIONS
@@ -13,6 +14,7 @@ class FavoriteItemsRepositoryImpl @Inject constructor(
 
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
     private val collectionReference by lazy { db.collection(USERS_COLLECTIONS) }
+    private val auth by lazy { FirebaseAuth.getInstance() }
 
 
     override suspend fun getFavorite(productId: Int, currentUser: String): Boolean {
@@ -22,9 +24,12 @@ class FavoriteItemsRepositoryImpl @Inject constructor(
         return document.exists()
     }
 
-    override suspend fun getAllFavorites(currentUser: String): List<FavoriteProduct> {
+    override suspend fun getAllFavorites(): List<FavoriteProduct>? {
+        if (auth.currentUser == null) {
+            return null
+        }
         val arr = mutableListOf<FavoriteProduct>()
-        val result = collectionReference.document(currentUser)
+        val result = collectionReference.document(auth.currentUser?.uid.toString())
             .collection(FAVORITES_COLLECTIONS).get().await()
         for (i in result)
             arr.add(i.toObject(FavoriteProduct::class.java))

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.hamdy.pinky.common.Constants.AN_UNEXPECTED_ERROR_OCCURRED
 import com.hamdy.pinky.common.Constants.PARAM_CART_PRODUCT_ID
+import com.hamdy.pinky.common.Constants.PARAM_Favorite_PRODUCT_ID
 import com.hamdy.pinky.common.Constants.PARAM_PRODUCT_ID
 import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.common.Resource
@@ -47,7 +48,7 @@ class ProductDetailsViewModel @Inject constructor(
     init {
         getUser()
         savedStateHandle.get<Int>(PARAM_PRODUCT_ID)?.let { productId ->
-            getProductDetails(productId.toInt())
+            getProductDetails(productId)
         }
 
     }
@@ -71,9 +72,7 @@ class ProductDetailsViewModel @Inject constructor(
                     getFavoriteItem()
                     savedStateHandle.get<String>(PARAM_CART_PRODUCT_ID)?.let { productId ->
                         getProductFromCart(_productDetailsState.value, productId)
-
                     }
-
                 }
                 is Resource.Error -> {
                     _productDetailsState.value = ProductDetailsState(
@@ -98,10 +97,19 @@ class ProductDetailsViewModel @Inject constructor(
                 if (value.userId == null) {
                     event.navController.navigate(Screen.Login.route)
                 } else {
-                    if (value.isFavorite!!)
+                    if (value.isFavorite!!) {
+                        event.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            PARAM_Favorite_PRODUCT_ID,
+                            true
+                        )
                         removeFavoriteList(value)
-                    else
+                    } else {
                         addToFavoriteList(value)
+                        event.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            PARAM_Favorite_PRODUCT_ID,
+                            false
+                        )
+                    }
                 }
             }
             is ProductDetailsEvent.AddItemCount -> {
@@ -179,6 +187,7 @@ class ProductDetailsViewModel @Inject constructor(
             )
         )
     }
+
     private fun getProductFromCart(value: ProductDetailsState, productId: String) {
         getProductFromCartUseCase(
             productId = productId,

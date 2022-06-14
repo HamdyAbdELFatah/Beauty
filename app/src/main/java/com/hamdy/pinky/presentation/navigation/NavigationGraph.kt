@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.hamdy.pinky.common.Constants.PARAM_CART_PRODUCT_ID
+import com.hamdy.pinky.common.Constants.PARAM_Favorite_PRODUCT_ID
 import com.hamdy.pinky.common.Constants.PARAM_PRODUCT_ID
 import com.hamdy.pinky.presentation.Screen
 import com.hamdy.pinky.presentation.SplashScreen
@@ -32,8 +33,9 @@ fun NavigationGraph(
             HomeScreen(navController = navController)
             changeVisibility(true)
         }
-        composable(route = Screen.route_favorite) {
-            FavoriteScreen()
+        composable(route = Screen.route_favorite) { backStackEntry ->
+            backStackEntry.arguments?.getBoolean(PARAM_Favorite_PRODUCT_ID, false)
+            FavoriteScreen(navController = navController)
             changeVisibility(true)
         }
         composable(route = Screen.route_cart) {
@@ -55,6 +57,7 @@ fun NavigationGraph(
                 }
             )
         ) {
+
             changeVisibility(false)
             ProductDetailsScreen(navController = navController)
         }

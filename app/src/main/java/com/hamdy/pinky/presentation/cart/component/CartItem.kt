@@ -1,5 +1,6 @@
 package com.hamdy.pinky.presentation.cart.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -19,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.ImageLoader
-import coil.compose.AsyncImage
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
+import coil.transform.BlurTransformation
 import com.hamdy.pinky.R
 import com.hamdy.pinky.common.ResString
 import com.hamdy.pinky.common.initUntruestImageLoader
@@ -111,14 +115,29 @@ inline fun Modifier.noRippleClickable(
 @Composable
 private fun ProductImage(url: String) {
     val untruestImageLoader: ImageLoader = initUntruestImageLoader(LocalContext.current)
-    AsyncImage(
-        modifier = Modifier.fillMaxWidth(),
-        model = url,
-        contentDescription = stringResource(id = ResString.product),
-        contentScale = ContentScale.Crop,
-        error = painterResource(R.drawable.mekaup_place_holder),
-        imageLoader = untruestImageLoader
+    val painter = rememberImagePainter(
+        data = url,
+        imageLoader = untruestImageLoader,
     )
+    val imagePainter: Painter = if (painter.state is ImagePainter.State.Error) {
+        painterResource(R.drawable.mekaup_place_holder)
+    } else {
+        painter
+    }
+    Image(
+        modifier = Modifier.fillMaxWidth(),
+        painter = imagePainter,
+        contentScale = ContentScale.Crop,
+        contentDescription = stringResource(ResString.description)
+    )
+//    AsyncImage(
+//        modifier = Modifier.fillMaxWidth(),
+//        model = url,
+//        contentDescription = stringResource(id = ResString.product),
+//        contentScale = ContentScale.Crop,
+//        error = painterResource(R.drawable.mekaup_place_holder),
+//        imageLoader = untruestImageLoader
+//    )
 
 }
 

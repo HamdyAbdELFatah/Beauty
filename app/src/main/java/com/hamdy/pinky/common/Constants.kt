@@ -11,6 +11,7 @@ object Constants {
 
     const val PARAM_PRODUCT_ID: String = "productId"
     const val PARAM_CART_PRODUCT_ID: String = "cartProductId"
+    const val PARAM_Favorite_PRODUCT_ID: String = "favoriteId"
     const val SIGN_EMAIL_LABEL: String = "Email"
     const val SIGN_PASSWORD_LABEL: String = "Password"
     const val SIGN_USERNAME_LABEL: String = "UserName"
