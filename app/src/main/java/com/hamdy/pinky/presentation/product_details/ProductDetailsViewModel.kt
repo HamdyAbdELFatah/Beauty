@@ -100,14 +100,14 @@ class ProductDetailsViewModel @Inject constructor(
                     if (value.isFavorite!!) {
                         event.navController.previousBackStackEntry?.savedStateHandle?.set(
                             PARAM_Favorite_PRODUCT_ID,
-                            true
+                            value.product?.id ?: -1
                         )
                         removeFavoriteList(value)
                     } else {
                         addToFavoriteList(value)
                         event.navController.previousBackStackEntry?.savedStateHandle?.set(
                             PARAM_Favorite_PRODUCT_ID,
-                            false
+                            -1
                         )
                     }
                 }

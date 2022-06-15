@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,15 +23,16 @@ fun FavoriteScreen(
     viewModel: FavoriteScreenViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
-    // todo lunch effect by product id
-    navController.GetOnceResult<Boolean>(PARAM_Favorite_PRODUCT_ID) { isRemoved ->
-        Log.d("lastMan", "FavoriteScreen: $isRemoved")
-        if (isRemoved) {
-            Log.d("lastMan", "Once: $isRemoved")
+    var removedProductId: Int = -1
+    navController.GetOnceResult<Int>(PARAM_Favorite_PRODUCT_ID) { productId ->
+        removedProductId = productId
+    }
+    val state = viewModel.favoriteScreenStateState.value
+    LaunchedEffect(removedProductId) {
+        if (removedProductId != -1) {
             viewModel.removeFavoriteItem()
         }
     }
-    val state = viewModel.favoriteScreenStateState.value
     Box(modifier = Modifier.fillMaxSize()) {
 
         state.products?.let { products ->
