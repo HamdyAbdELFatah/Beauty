@@ -183,7 +183,7 @@ class ProductDetailsViewModel @Inject constructor(
         favoriteCollector(
             getFavoriteProductUseCase(
                 productId = _productDetailsState.value.product?.id!!,
-                currentUser = _productDetailsState.value.userId!!
+                currentUser = _productDetailsState.value.userId ?: ""
             )
         )
     }

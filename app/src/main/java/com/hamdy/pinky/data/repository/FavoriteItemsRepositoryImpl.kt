@@ -18,7 +18,10 @@ class FavoriteItemsRepositoryImpl @Inject constructor(
 
 
     override suspend fun getFavorite(productId: Int, currentUser: String): Boolean {
-        val document = collectionReference.document(currentUser)
+        if (auth.currentUser == null) {
+            return false
+        }
+        val document = collectionReference.document(auth.currentUser!!.uid)
             .collection(FAVORITES_COLLECTIONS).document(productId.toString()).get().await()
 
         return document.exists()

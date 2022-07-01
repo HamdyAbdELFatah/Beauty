@@ -27,7 +27,7 @@ class AddToFavoriteUseCase @Inject constructor(
                 id = product.id,
                 name = product.name,
                 price = product.price,
-                priceSign = product.priceSign,
+                priceSign = product.priceSign ?: "$",
                 imageLink = product.imageLink,
                 timeStamp = Timestamp(System.currentTimeMillis()).toString(),
             )
